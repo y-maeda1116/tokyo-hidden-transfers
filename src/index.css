@@ -1,0 +1,126 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Hiragino Kaku Gothic ProN',
+    sans-serif;
+  color: #1a1a1a;
+}
+
+/* レイアウト */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  padding: 12px 16px;
+  background: #1a73e8;
+  color: #ffffff;
+}
+.header-title {
+  margin: 0;
+  font-size: 18px;
+}
+.header-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 凡例 */
+.legend {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  max-width: 240px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+}
+.legend-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+.legend-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.legend-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.legend-swatch {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+}
+.legend-transfer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid #eeeeee;
+}
+.legend-dashed {
+  display: inline-block;
+  width: 18px;
+  border-top: 2px dashed #555555;
+}
+
+/* ツールチップ（MapLibre Popup 内） */
+.tooltip {
+  max-width: 220px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.tooltip-line {
+  color: #555555;
+  font-size: 12px;
+}
+.tooltip-walk {
+  margin-top: 4px;
+  color: #1a73e8;
+  font-weight: 600;
+}
+.tooltip-note {
+  margin-top: 2px;
+  color: #666666;
+  font-size: 12px;
+}

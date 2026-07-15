@@ -1,0 +1,38 @@
+{
+  "name": "tokyo-hidden-transfers",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --config .eslintrc.base.json --no-error-on-unmatched-pattern ."
+  },
+  "dependencies": {
+    "maplibre-gl": "^5.24.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "@vitest/coverage-v8": "^4.1.0",
+    "eslint": "8.57.1",
+    "eslint-plugin-security": "^3.0.0",
+    "typescript": "^7.0.0",
+    "vite": "^8.1.0",
+    "vitest": "^4.1.0"
+  }
+}
