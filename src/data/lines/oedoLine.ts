@@ -1,13 +1,51 @@
 import type { Line } from '../../domain/types.ts'
 
-// 都営大江戸線（蔵前の乗換を表現するための最小駅セット）
+// 都営大江戸線 全38駅（E01新宿西口→都庁前基点の6の字運転→E38光が丘）。座標は WGS84。
+// 確定10駅は Wikipedia、残り28駅は前後の確定駅からの直線補間（推定）。
+// 環状部のカーブ区間では補間がズレるため、地図表示で要微修正。
+// 蔵前(e11)だけは既存の正確座標を採用し、浅草線との乗換(kuramae-transfer)参照。
 export const oedoLine: Line = {
   id: 'oedo',
   name: '都営大江戸線',
   color: '#b6007a',
   stations: [
-    { id: 'kuramae-oedo', name: '蔵前', lineId: 'oedo', lon: 139.7942, lat: 35.7106 },
-    { id: 'ryogoku', name: '両国', lineId: 'oedo', lon: 139.7909, lat: 35.6906 },
-    { id: 'kasuga', name: '春日', lineId: 'oedo', lon: 139.7513, lat: 35.6989 },
+    { id: 'e01', name: '新宿西口', lineId: 'oedo', lon: 139.699139, lat: 35.693306 },
+    { id: 'e02', name: '東新宿', lineId: 'oedo', lon: 139.708311, lat: 35.695056 },
+    { id: 'e03', name: '若松河田', lineId: 'oedo', lon: 139.717483, lat: 35.696806 },
+    { id: 'e04', name: '牛込柳町', lineId: 'oedo', lon: 139.726656, lat: 35.698556 },
+    { id: 'e05', name: '牛込神楽坂', lineId: 'oedo', lon: 139.735828, lat: 35.700306 },
+    { id: 'e06', name: '飯田橋', lineId: 'oedo', lon: 139.745, lat: 35.702056 },
+    { id: 'e07', name: '春日', lineId: 'oedo', lon: 139.754444, lat: 35.703264 },
+    { id: 'e08', name: '本郷三丁目', lineId: 'oedo', lon: 139.763889, lat: 35.704472 },
+    { id: 'e09', name: '上野御徒町', lineId: 'oedo', lon: 139.773333, lat: 35.705681 },
+    { id: 'e10', name: '新御徒町', lineId: 'oedo', lon: 139.782778, lat: 35.706889 },
+    { id: 'e11', name: '蔵前', lineId: 'oedo', lon: 139.7942, lat: 35.7106 },
+    { id: 'e12', name: '両国', lineId: 'oedo', lon: 139.7925, lat: 35.696111 },
+    { id: 'e13', name: '森下', lineId: 'oedo', lon: 139.787853, lat: 35.691369 },
+    { id: 'e14', name: '清澄白河', lineId: 'oedo', lon: 139.783206, lat: 35.686627 },
+    { id: 'e15', name: '門前仲町', lineId: 'oedo', lon: 139.77856, lat: 35.681885 },
+    { id: 'e16', name: '月島', lineId: 'oedo', lon: 139.773913, lat: 35.677143 },
+    { id: 'e17', name: '勝どき', lineId: 'oedo', lon: 139.769266, lat: 35.672401 },
+    { id: 'e18', name: '築地市場', lineId: 'oedo', lon: 139.764619, lat: 35.667659 },
+    { id: 'e19', name: '汐留', lineId: 'oedo', lon: 139.759972, lat: 35.662917 },
+    { id: 'e20', name: '大門', lineId: 'oedo', lon: 139.754639, lat: 35.65675 },
+    { id: 'e21', name: '赤羽橋', lineId: 'oedo', lon: 139.74588, lat: 35.661134 },
+    { id: 'e22', name: '麻布十番', lineId: 'oedo', lon: 139.73712, lat: 35.665519 },
+    { id: 'e23', name: '六本木', lineId: 'oedo', lon: 139.728361, lat: 35.669903 },
+    { id: 'e24', name: '青山一丁目', lineId: 'oedo', lon: 139.719602, lat: 35.674287 },
+    { id: 'e25', name: '国立競技場', lineId: 'oedo', lon: 139.710843, lat: 35.678671 },
+    { id: 'e26', name: '代々木', lineId: 'oedo', lon: 139.702083, lat: 35.683056 },
+    { id: 'e27', name: '新宿', lineId: 'oedo', lon: 139.696691, lat: 35.689139 },
+    { id: 'e28', name: '都庁前', lineId: 'oedo', lon: 139.691299, lat: 35.695222 },
+    { id: 'e29', name: '西新宿五丁目', lineId: 'oedo', lon: 139.685907, lat: 35.701306 },
+    { id: 'e30', name: '中野坂上', lineId: 'oedo', lon: 139.680515, lat: 35.707389 },
+    { id: 'e31', name: '東中野', lineId: 'oedo', lon: 139.675123, lat: 35.713472 },
+    { id: 'e32', name: '中井', lineId: 'oedo', lon: 139.669731, lat: 35.719556 },
+    { id: 'e33', name: '落合南長崎', lineId: 'oedo', lon: 139.66434, lat: 35.725639 },
+    { id: 'e34', name: '新江古田', lineId: 'oedo', lon: 139.658948, lat: 35.731722 },
+    { id: 'e35', name: '練馬', lineId: 'oedo', lon: 139.653556, lat: 35.737806 },
+    { id: 'e36', name: '豊島園', lineId: 'oedo', lon: 139.647944, lat: 35.741944 },
+    { id: 'e37', name: '練馬春日町', lineId: 'oedo', lon: 139.638417, lat: 35.750222 },
+    { id: 'e38', name: '光が丘', lineId: 'oedo', lon: 139.628889, lat: 35.7585 },
   ],
 }

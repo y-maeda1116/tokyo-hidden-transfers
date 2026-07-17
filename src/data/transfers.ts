@@ -10,7 +10,7 @@ export const transfers: readonly Transfer[] = [
   {
     id: 'kuramae-transfer',
     fromStationId: 'kuramae-asakusa',
-    toStationId: 'kuramae-oedo',
+    toStationId: 'e11',
     walkMinutes: 6,
     note: '地下通路で連絡（別ホーム）',
   },
