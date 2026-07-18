@@ -7,6 +7,7 @@ import { hibiyaLine } from './lines/hibiyaLine.ts'
 import { mitaLine } from './lines/mitaLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
+import { tozaiLine } from './lines/tozaiLine.ts'
 import { tsukubaExpress } from './lines/tsukubaExpress.ts'
 import { transfers } from './transfers.ts'
 
@@ -19,6 +20,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   hanzomonLine,
   hibiyaLine,
   shinjukuLine,
+  tozaiLine,
   tsukubaExpress,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
