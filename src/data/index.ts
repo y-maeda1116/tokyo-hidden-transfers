@@ -6,6 +6,7 @@ import { fukutoshinLine } from './lines/fukutoshinLine.ts'
 import { ginzaLine } from './lines/ginzaLine.ts'
 import { hanzomonLine } from './lines/hanzomonLine.ts'
 import { hibiyaLine } from './lines/hibiyaLine.ts'
+import { marunouchiLine } from './lines/marunouchiLine.ts'
 import { mitaLine } from './lines/mitaLine.ts'
 import { nambokuLine } from './lines/nambokuLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
@@ -26,6 +27,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   ginzaLine,
   hanzomonLine,
   hibiyaLine,
+  marunouchiLine,
   shinjukuLine,
   tozaiLine,
   tsukubaExpress,
