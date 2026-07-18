@@ -9,6 +9,7 @@ import { oedoLine } from './lines/oedoLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
 import { tozaiLine } from './lines/tozaiLine.ts'
 import { tsukubaExpress } from './lines/tsukubaExpress.ts'
+import { yurakuchoLine } from './lines/yurakuchoLine.ts'
 import { transfers } from './transfers.ts'
 
 // 起動時に zod で検証し、不正データなら即座に失敗させる（フェイルファスト）。
@@ -22,6 +23,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   shinjukuLine,
   tozaiLine,
   tsukubaExpress,
+  yurakuchoLine,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
 
