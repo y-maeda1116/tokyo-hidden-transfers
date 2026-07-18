@@ -16,14 +16,14 @@ export const transfers: readonly Transfer[] = [
   },
   {
     id: 'asakusa-ginza-tx',
-    fromStationId: 'asakusa-ginza',
+    fromStationId: 'g19',
     toStationId: 'asakusa-tx',
     walkMinutes: 12,
     note: '約1km離れた別駅',
   },
   {
     id: 'asakusa-ginza-asakusa',
-    fromStationId: 'asakusa-ginza',
+    fromStationId: 'g19',
     toStationId: 'asakusa-asakusa',
     walkMinutes: 10,
     note: '銀座線と都営浅草線の連絡',
