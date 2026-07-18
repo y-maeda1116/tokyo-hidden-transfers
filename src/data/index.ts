@@ -1,6 +1,7 @@
 import { LineSchema, TransferSchema } from '../domain/schemas.ts'
 import type { Line, Station, Transfer } from '../domain/types.ts'
 import { asakusaLine } from './lines/asakusaLine.ts'
+import { chiyodaLine } from './lines/chiyodaLine.ts'
 import { fukutoshinLine } from './lines/fukutoshinLine.ts'
 import { ginzaLine } from './lines/ginzaLine.ts'
 import { hanzomonLine } from './lines/hanzomonLine.ts'
@@ -17,6 +18,7 @@ import { transfers } from './transfers.ts'
 // 起動時に zod で検証し、不正データなら即座に失敗させる（フェイルファスト）。
 const validatedLines: Line[] = LineSchema.array().parse([
   asakusaLine,
+  chiyodaLine,
   fukutoshinLine,
   oedoLine,
   mitaLine,
