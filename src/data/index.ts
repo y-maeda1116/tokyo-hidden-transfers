@@ -5,6 +5,7 @@ import { ginzaLine } from './lines/ginzaLine.ts'
 import { hanzomonLine } from './lines/hanzomonLine.ts'
 import { hibiyaLine } from './lines/hibiyaLine.ts'
 import { mitaLine } from './lines/mitaLine.ts'
+import { nambokuLine } from './lines/nambokuLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
 import { tozaiLine } from './lines/tozaiLine.ts'
@@ -17,6 +18,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   asakusaLine,
   oedoLine,
   mitaLine,
+  nambokuLine,
   ginzaLine,
   hanzomonLine,
   hibiyaLine,
