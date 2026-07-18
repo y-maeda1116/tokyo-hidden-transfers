@@ -2,6 +2,7 @@ import { LineSchema, TransferSchema } from '../domain/schemas.ts'
 import type { Line, Station, Transfer } from '../domain/types.ts'
 import { asakusaLine } from './lines/asakusaLine.ts'
 import { ginzaLine } from './lines/ginzaLine.ts'
+import { hanzomonLine } from './lines/hanzomonLine.ts'
 import { mitaLine } from './lines/mitaLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
@@ -14,6 +15,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   oedoLine,
   mitaLine,
   ginzaLine,
+  hanzomonLine,
   shinjukuLine,
   tsukubaExpress,
 ])
