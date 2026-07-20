@@ -1,21 +1,37 @@
 import { LineSchema, TransferSchema } from '../domain/schemas.ts'
 import type { Line, Station, Transfer } from '../domain/types.ts'
 import { asakusaLine } from './lines/asakusaLine.ts'
+import { chiyodaLine } from './lines/chiyodaLine.ts'
+import { fukutoshinLine } from './lines/fukutoshinLine.ts'
 import { ginzaLine } from './lines/ginzaLine.ts'
+import { hanzomonLine } from './lines/hanzomonLine.ts'
+import { hibiyaLine } from './lines/hibiyaLine.ts'
+import { marunouchiLine } from './lines/marunouchiLine.ts'
 import { mitaLine } from './lines/mitaLine.ts'
+import { nambokuLine } from './lines/nambokuLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
+import { tozaiLine } from './lines/tozaiLine.ts'
 import { tsukubaExpress } from './lines/tsukubaExpress.ts'
+import { yurakuchoLine } from './lines/yurakuchoLine.ts'
 import { transfers } from './transfers.ts'
 
 // 起動時に zod で検証し、不正データなら即座に失敗させる（フェイルファスト）。
 const validatedLines: Line[] = LineSchema.array().parse([
   asakusaLine,
+  chiyodaLine,
+  fukutoshinLine,
   oedoLine,
   mitaLine,
+  nambokuLine,
   ginzaLine,
+  hanzomonLine,
+  hibiyaLine,
+  marunouchiLine,
   shinjukuLine,
+  tozaiLine,
   tsukubaExpress,
+  yurakuchoLine,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
 

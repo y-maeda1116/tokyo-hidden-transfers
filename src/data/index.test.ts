@@ -8,8 +8,8 @@ import {
 } from '../geojson/builders.ts'
 
 describe('lines（路線データ）', () => {
-  it('6路線が定義されている', () => {
-    expect(lines.length).toBe(6)
+  it('14路線が定義されている', () => {
+    expect(lines.length).toBe(14)
   })
 
   it('全路線が2駅以上を持つ', () => {
