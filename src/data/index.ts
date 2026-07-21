@@ -13,6 +13,7 @@ import { oedoLine } from './lines/oedoLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
 import { tozaiLine } from './lines/tozaiLine.ts'
 import { tsukubaExpress } from './lines/tsukubaExpress.ts'
+import { yamanoteLine } from './lines/yamanoteLine.ts'
 import { yurakuchoLine } from './lines/yurakuchoLine.ts'
 import { transfers } from './transfers.ts'
 
@@ -31,6 +32,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   shinjukuLine,
   tozaiLine,
   tsukubaExpress,
+  yamanoteLine,
   yurakuchoLine,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
