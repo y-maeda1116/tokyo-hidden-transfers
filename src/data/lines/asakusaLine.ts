@@ -6,7 +6,7 @@ export const asakusaLine: Line = {
   name: '都営浅草線',
   color: '#e8472e',
   stations: [
-    { id: 'asakusa-asakusa', name: '浅草', lineId: 'asakusa', lon: 139.8059, lat: 35.7119 },
+    { id: 'asakusa-asakusa', name: '浅草', lineId: 'asakusa', lon: 139.7976, lat: 35.7119 },
     { id: 'kuramae-asakusa', name: '蔵前', lineId: 'asakusa', lon: 139.7955, lat: 35.7116 },
     { id: 'sengakuji', name: '泉岳寺', lineId: 'asakusa', lon: 139.7394, lat: 35.7396 },
   ],
