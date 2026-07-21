@@ -26,6 +26,6 @@ export const asakusaLine: Line = {
     { id: 'higashinihonbashi-asakusa', name: '東日本橋', lineId: 'asakusa', lon: 139.7865, lat: 35.6947 },
     { id: 'asakusabashi-asakusa', name: '浅草橋', lineId: 'asakusa', lon: 139.7876, lat: 35.7019 },
     { id: 'kuramae-asakusa', name: '蔵前', lineId: 'asakusa', lon: 139.7955, lat: 35.7116 },
-    { id: 'asakusa-asakusa', name: '浅草', lineId: 'asakusa', lon: 139.8059, lat: 35.7119 },
+    { id: 'asakusa-asakusa', name: '浅草', lineId: 'asakusa', lon: 139.7976, lat: 35.7119 },
   ],
 }
