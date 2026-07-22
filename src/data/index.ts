@@ -2,15 +2,23 @@ import { LineSchema, TransferSchema } from '../domain/schemas.ts'
 import type { Line, Station, Transfer } from '../domain/types.ts'
 import { asakusaLine } from './lines/asakusaLine.ts'
 import { chiyodaLine } from './lines/chiyodaLine.ts'
+import { chuoSobuLocalLine } from './lines/chuoSobuLocalLine.ts'
 import { fukutoshinLine } from './lines/fukutoshinLine.ts'
 import { ginzaLine } from './lines/ginzaLine.ts'
+import { keikyuLine } from './lines/keikyuLine.ts'
+import { keiseiLine } from './lines/keiseiLine.ts'
 import { hanzomonLine } from './lines/hanzomonLine.ts'
 import { hibiyaLine } from './lines/hibiyaLine.ts'
 import { marunouchiLine } from './lines/marunouchiLine.ts'
 import { mitaLine } from './lines/mitaLine.ts'
 import { nambokuLine } from './lines/nambokuLine.ts'
+import { nipporiToneriLinerLine } from './lines/nipporiToneriLinerLine.ts'
+import { odakyuLine } from './lines/odakyuLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
+import { seibuShinjukuLine } from './lines/seibuShinjukuLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
+import { todenArakawaLine } from './lines/todenArakawaLine.ts'
+import { toyokoLine } from './lines/toyokoLine.ts'
 import { tozaiLine } from './lines/tozaiLine.ts'
 import { tsukubaExpress } from './lines/tsukubaExpress.ts'
 import { yamanoteLine } from './lines/yamanoteLine.ts'
@@ -34,6 +42,14 @@ const validatedLines: Line[] = LineSchema.array().parse([
   tsukubaExpress,
   yamanoteLine,
   yurakuchoLine,
+  chuoSobuLocalLine,
+  nipporiToneriLinerLine,
+  todenArakawaLine,
+  keikyuLine,
+  keiseiLine,
+  odakyuLine,
+  seibuShinjukuLine,
+  toyokoLine,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
 
