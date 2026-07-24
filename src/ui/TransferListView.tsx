@@ -31,8 +31,8 @@ export function TransferListView({ entries }: Props) {
         <p className="transfer-empty">該当する駅が見つかりません</p>
       ) : (
         <ul className="transfer-entries">
-          {filtered.map((entry) => (
-            <li key={entry.stationName} className="transfer-entry">
+          {filtered.map((entry, idx) => (
+            <li key={`${entry.stationName}-${idx}`} className="transfer-entry">
               <div className="transfer-entry-name">■ {entry.stationName}</div>
               {entry.officialLines.length >= 2 && (
                 <div className="transfer-official">
@@ -52,7 +52,7 @@ export function TransferListView({ entries }: Props) {
               {entry.unofficial.length > 0 && (
                 <ul className="transfer-unofficial">
                   {entry.unofficial.map((u, i) => (
-                    <li key={`${u.toStationName}-${i}`} className="transfer-unofficial-item">
+                    <li key={`${entry.stationName}-${u.toStationName}-${i}`} className="transfer-unofficial-item">
                       <span className="transfer-arrow">→ {u.toStationName}</span>
                       <span className="transfer-unofficial-lines">
                         （{u.toLines.map((l) => l.lineName).join(' / ')}・{u.walkMinutes}分）

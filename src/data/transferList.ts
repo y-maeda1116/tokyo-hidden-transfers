@@ -54,15 +54,13 @@ export function buildTransferList(
       color: line.color,
     }
     for (const station of line.stations) {
-      const sArr = stationsByName.get(station.name) ?? []
-      sArr.push(station)
-      stationsByName.set(station.name, sArr)
+      const prevStations = stationsByName.get(station.name) ?? []
+      stationsByName.set(station.name, [...prevStations, station])
 
-      const lArr = linesByName.get(station.name) ?? []
-      if (!lArr.some((o) => o.lineId === line.id)) {
-        lArr.push(official)
+      const prevLines = linesByName.get(station.name) ?? []
+      if (!prevLines.some((o) => o.lineId === line.id)) {
+        linesByName.set(station.name, [...prevLines, official])
       }
-      linesByName.set(station.name, lArr)
     }
   }
 
@@ -81,9 +79,8 @@ export function buildTransferList(
       walkMinutes: transfer.walkMinutes,
       note: transfer.note,
     }
-    const arr = unofficialByFromId.get(transfer.fromStationId) ?? []
-    arr.push(unofficial)
-    unofficialByFromId.set(transfer.fromStationId, arr)
+    const prevTransfers = unofficialByFromId.get(transfer.fromStationId) ?? []
+    unofficialByFromId.set(transfer.fromStationId, [...prevTransfers, unofficial])
   }
 
   // 駅名ごとにエントリ生成（絞り込み付き）
