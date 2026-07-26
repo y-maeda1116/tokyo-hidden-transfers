@@ -211,6 +211,25 @@ body {
   background: #ffffff;
   z-index: 1;
 }
+.transfer-sort {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+.transfer-sort-option {
+  padding: 6px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #555555;
+  font-size: 13px;
+  cursor: pointer;
+}
+.transfer-sort-option.active {
+  background: #1a73e8;
+  border-color: #1a73e8;
+  color: #ffffff;
+}
 .transfer-entries {
   margin: 0;
   padding: 0;

@@ -129,3 +129,28 @@ function resolveOfficialLines(
     },
   ]
 }
+
+/** リストのソート基準。 */
+export type SortKey = 'name' | 'walk'
+
+/**
+ * 2つの乗換エントリをソート比較する（純粋関数）。
+ * - 'name': 駅名の五十音順。
+ * - 'walk': 非公式乗換の最小徒歩時間が短い順。公式のみ（非公式なし）は最後尾。
+ *   最小徒歩時間が同じ場合は駅名順で安定させる。
+ */
+export function compareEntries(
+  a: TransferEntry,
+  b: TransferEntry,
+  sortKey: SortKey,
+): number {
+  if (sortKey === 'walk') {
+    const minWalk = (e: TransferEntry): number =>
+      e.unofficial.length === 0
+        ? Number.POSITIVE_INFINITY
+        : Math.min(...e.unofficial.map((u) => u.walkMinutes))
+    const diff = minWalk(a) - minWalk(b)
+    if (diff !== 0) return diff
+  }
+  return a.stationName.localeCompare(b.stationName, 'ja')
+}

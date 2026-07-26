@@ -1,5 +1,9 @@
 import { useState } from 'react'
-import type { TransferEntry } from '../data/transferList.ts'
+import {
+  compareEntries,
+  type SortKey,
+  type TransferEntry,
+} from '../data/transferList.ts'
 
 interface Props {
   entries: TransferEntry[]
@@ -7,9 +11,10 @@ interface Props {
 }
 
 /** 乗換リスト（駅名インデックス形式）。公式乗換（同名駅の路線）と非公式乗換（徒歩先）を表示。
- * 駅名・徒歩先をクリックすると地図タブへジャンプする。 */
+ * 駅名・徒歩先をクリックすると地図タブへジャンプし、並び順を切替できる。 */
 export function TransferListView({ entries, onSelectStation }: Props) {
   const [query, setQuery] = useState('')
+  const [sortKey, setSortKey] = useState<SortKey>('name')
   const trimmed = query.trim()
   const filtered = trimmed
     ? entries.filter(
@@ -18,6 +23,7 @@ export function TransferListView({ entries, onSelectStation }: Props) {
           e.unofficial.some((u) => u.toStationName.includes(trimmed)),
       )
     : entries
+  const sorted = [...filtered].sort((a, b) => compareEntries(a, b, sortKey))
 
   return (
     <div className="transfer-list">
@@ -29,11 +35,29 @@ export function TransferListView({ entries, onSelectStation }: Props) {
         onChange={(e) => setQuery(e.target.value)}
         aria-label="駅名検索"
       />
-      {filtered.length === 0 ? (
+      <div className="transfer-sort" role="group" aria-label="並び順">
+        <button
+          type="button"
+          className={`transfer-sort-option${sortKey === 'name' ? ' active' : ''}`}
+          onClick={() => setSortKey('name')}
+          aria-pressed={sortKey === 'name'}
+        >
+          駅名順
+        </button>
+        <button
+          type="button"
+          className={`transfer-sort-option${sortKey === 'walk' ? ' active' : ''}`}
+          onClick={() => setSortKey('walk')}
+          aria-pressed={sortKey === 'walk'}
+        >
+          徒歩が短い順
+        </button>
+      </div>
+      {sorted.length === 0 ? (
         <p className="transfer-empty">該当する駅が見つかりません</p>
       ) : (
         <ul className="transfer-entries">
-          {filtered.map((entry, idx) => (
+          {sorted.map((entry, idx) => (
             <li key={`${entry.stationName}-${idx}`} className="transfer-entry">
               <button
                 type="button"
