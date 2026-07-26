@@ -79,10 +79,30 @@ body {
   list-style: none;
 }
 .legend-line {
+  margin: 2px 0;
+}
+.legend-toggle {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 4px 0;
+  width: 100%;
+  padding: 3px 4px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.legend-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.legend-toggle.is-hidden {
+  opacity: 0.4;
+}
+.legend-toggle.is-hidden .legend-name {
+  text-decoration: line-through;
 }
 .legend-swatch {
   display: inline-block;

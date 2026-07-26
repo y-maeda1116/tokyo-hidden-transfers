@@ -10,11 +10,29 @@ type Tab = 'map' | 'list'
 
 export function App() {
   const [tab, setTab] = useState<Tab>('map')
+  // 地図タブの路線表示ON/OFF（非表示にした路線IDの集合）。新しい Set でイミュータブル更新。
+  const [hiddenLineIds, setHiddenLineIds] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  )
+
   // lines/allTransfers/stationsById は起動時に固定（イミュータブル）なので初回のみ生成
   const transferEntries = useMemo(
     () => buildTransferList(lines, allTransfers, stationsById),
     [],
   )
+
+  // 路線の表示/非表示をトグル（prev を破壊せず新しい Set を生成）
+  const toggleLine = (lineId: string): void => {
+    setHiddenLineIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(lineId)) {
+        next.delete(lineId)
+      } else {
+        next.add(lineId)
+      }
+      return next
+    })
+  }
 
   return (
     <div className="app">
@@ -42,8 +60,13 @@ export function App() {
               lines={lines}
               transfers={allTransfers}
               stationsById={stationsById}
+              hiddenLineIds={hiddenLineIds}
             />
-            <Legend lines={lines} />
+            <Legend
+              lines={lines}
+              hiddenLineIds={hiddenLineIds}
+              onToggleLine={toggleLine}
+            />
           </>
         ) : (
           <TransferListView entries={transferEntries} />
