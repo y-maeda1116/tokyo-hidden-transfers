@@ -1,5 +1,0 @@
-{
-  "root": true,
-  "extends": ["./.eslintrc.base.json"],
-  "ignorePatterns": ["dist/", "coverage/", "node_modules/"]
-}

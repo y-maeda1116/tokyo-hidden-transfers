@@ -10,8 +10,6 @@ updates:
       - automated
 
   # npm パッケージの定期的なバージョンアップ
-  # ※ eslint は security-base ワークフロー互換のため 8.57.1 に固定しており、
-  #    下記 ignore で 9/10 系への更新を抑止している。
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
@@ -19,6 +17,3 @@ updates:
     labels:
       - dependencies
       - automated
-    ignore:
-      - dependency-name: 'eslint'
-        update-types: ['version-update:semver-major', 'version-update:semver-minor']

@@ -111,7 +111,7 @@ npm run test:coverage # カバレッジ付きテスト実行（論理層 80% 以
 
 Dependabot が GitHub Actions と npm パッケージの週次アップデートを管理します。
 
-> **備考（セキュリティ設定の技術制約）**: TypeScript 7 は `typescript-eslint` のサポート範囲外（peer が `typescript <6.1.0`）のため、ESLint は security-base のルール設定を取り込みつつ、TS ファイルの静的解析は `tsc` と Trivy で代替しています。また `eslint` は security-base ワークフローとの互換のため `8.57.1` に固定しています（Dependabot の ignore 設定で 9/10 系への更新を抑止）。
+> **備考（セキュリティ設定の技術制約）**: TypeScript 7 は `typescript-eslint` のサポート範囲外（peer が `typescript <6.1.0`）のため、`.ts/.tsx` は ESLint のリント対象外（`eslint.config.js` の ignores）とし、TS ファイルの静的解析は `tsc` と Trivy で代替しています。ESLint は flat config（`eslint.config.js`）で security-base のルールを `.js/.jsx` 等に適用します。
 
 ## プロジェクト構成
 
