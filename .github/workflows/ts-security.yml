@@ -2,10 +2,8 @@ name: TypeScript Security
 
 # セキュリティチェック: npm audit + ESLint(security-base 設定取り込み)。
 # 注: TypeScript 7 は typescript-eslint のサポート範囲外(peer typescript <6.1.0)のため、
-# ESLint は security-base のセキュリティルール設定を取り込むものの、TS ファイルの
-# 実行時パースは不可。型安全性は tsc、シークレット検出は secret-scan(Trivy) で代替する。
-# TS/.tsx がリント対象外のとき exit 2 で CI が赤になるのを防ぐため
-# --no-error-on-unmatched-pattern を付与する。
+# .ts/.tsx は ESLint の対象外（eslint.config.js の ignores で除外）。
+# 型安全性は tsc、シークレット検出は secret-scan(Trivy) で代替する。
 # 参考: https://github.com/y-maeda1116/security-base
 on:
   push:
@@ -32,4 +30,4 @@ jobs:
       - name: npm audit (high and above)
         run: npm audit --audit-level=high
       - name: ESLint security check
-        run: npx eslint --config .eslintrc.base.json --no-error-on-unmatched-pattern .
+        run: npx eslint .

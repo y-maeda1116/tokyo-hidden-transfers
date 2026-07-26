@@ -4,6 +4,7 @@ import type { Line, Station, Transfer } from '../domain/types.ts'
  * 乗換リスト用のデータ構造。
  * 公式乗換（同名駅＝同一駅に乗り入れる路線）と非公式乗換（徒歩で別位置の駅へ）を
  * 駅名単位でまとめたインデックス。地図タブとは別の「乗換リスト」タブで表示する。
+ * 各エントリ・各徒歩先は stationId を持つため、地図タブへのジャンプ連携に使える。
  */
 
 /** 路線の表示情報（路線ID・名称・路線色）。 */
@@ -16,14 +17,17 @@ export interface OfficialLine {
 /** 非公式乗換の徒歩先駅。toLines は到着駅名に乗り入れる路線一覧。 */
 export interface UnofficialTransfer {
   toStationName: string
+  toStationId: string
   toLines: OfficialLine[]
   walkMinutes: number
   note?: string
 }
 
-/** 駅名ごとの乗換エントリ。公式乗換（同名駅の路線）と非公式乗換（徒歩先）を持つ。 */
+/** 駅名ごとの乗換エントリ。公式乗換（同名駅の路線）と非公式乗換（徒歩先）を持つ。
+ * stationIds は同名駅グループに属する全駅ID（地図ジャンプの代表選択用）。 */
 export interface TransferEntry {
   stationName: string
+  stationIds: readonly string[]
   officialLines: OfficialLine[]
   unofficial: UnofficialTransfer[]
 }
@@ -31,7 +35,7 @@ export interface TransferEntry {
 /**
  * lines / transfers / stationsById から駅名インデックスの乗換リストを生成する。
  * - 公式乗換: 同名駅（駅名完全一致）に乗り入れる路線を集約（lineId 重複除外）。
- * - 非公式乗換: 各駅 id が from となる transfer を集め、to 駅名の路線一覧を付与。
+ * - 非公式乗換: 各駅 id が from となる transfer を集め、to 駅名・toStationId・路線一覧を付与。
  * - 絞り込み: 公式2路線以上 OR 非公式1件以上 の駅のみ（乗換のない駅は除外）。
  * - ソート: 駅名のコードポイント順（漢字の完全な五十音順は保証しない）。
  *
@@ -75,6 +79,7 @@ export function buildTransferList(
     const toLines = resolveOfficialLines(to, linesByName, lineById)
     const unofficial: UnofficialTransfer = {
       toStationName: to.name,
+      toStationId: to.id,
       toLines,
       walkMinutes: transfer.walkMinutes,
       note: transfer.note,
@@ -93,7 +98,12 @@ export function buildTransferList(
       if (us) unofficial.push(...us)
     }
     if (officialLines.length >= 2 || unofficial.length >= 1) {
-      entries.push({ stationName: name, officialLines, unofficial })
+      entries.push({
+        stationName: name,
+        stationIds: stations.map((s) => s.id),
+        officialLines,
+        unofficial,
+      })
     }
   }
 
@@ -118,4 +128,29 @@ function resolveOfficialLines(
       color: line?.color ?? '#000000',
     },
   ]
+}
+
+/** リストのソート基準。 */
+export type SortKey = 'name' | 'walk'
+
+/**
+ * 2つの乗換エントリをソート比較する（純粋関数）。
+ * - 'name': 駅名の五十音順。
+ * - 'walk': 非公式乗換の最小徒歩時間が短い順。公式のみ（非公式なし）は最後尾。
+ *   最小徒歩時間が同じ場合は駅名順で安定させる。
+ */
+export function compareEntries(
+  a: TransferEntry,
+  b: TransferEntry,
+  sortKey: SortKey,
+): number {
+  if (sortKey === 'walk') {
+    const minWalk = (e: TransferEntry): number =>
+      e.unofficial.length === 0
+        ? Number.POSITIVE_INFINITY
+        : Math.min(...e.unofficial.map((u) => u.walkMinutes))
+    const diff = minWalk(a) - minWalk(b)
+    if (diff !== 0) return diff
+  }
+  return a.stationName.localeCompare(b.stationName, 'ja')
 }

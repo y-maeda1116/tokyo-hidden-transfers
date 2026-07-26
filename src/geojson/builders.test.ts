@@ -6,6 +6,7 @@ import {
   buildStationPoint,
   buildTransferLineFeature,
   buildTransfersCollection,
+  isDetourTransfer,
 } from './builders.ts'
 
 const stationA: Station = {
@@ -118,5 +119,51 @@ describe('buildTransfersCollection', () => {
     ])
     const fc = buildTransfersCollection([transfer], stationsById)
     expect(fc.features).toHaveLength(1)
+  })
+})
+
+describe('isDetourTransfer', () => {
+  it("id が 'detour-' で始まるものを山手線運休時の振替ルートと判定する", () => {
+    const transfer: Transfer = {
+      id: 'detour-jy30-sengakuji',
+      fromStationId: 'a',
+      toStationId: 'b',
+      walkMinutes: 15,
+    }
+    expect(isDetourTransfer(transfer)).toBe(true)
+  })
+
+  it('通常の非公式乗換は振替ルートと判定しない', () => {
+    const transfer: Transfer = {
+      id: 'kuramae-transfer',
+      fromStationId: 'a',
+      toStationId: 'b',
+      walkMinutes: 6,
+    }
+    expect(isDetourTransfer(transfer)).toBe(false)
+  })
+})
+
+describe('buildTransferLineFeature (isDetour プロパティ)', () => {
+  it('振替ルートの isDetour プロパティが true になる', () => {
+    const transfer: Transfer = {
+      id: 'detour-x',
+      fromStationId: 'a',
+      toStationId: 'b',
+      walkMinutes: 5,
+    }
+    const f = buildTransferLineFeature(transfer, stationA, stationB)
+    expect(f.properties).toMatchObject({ isDetour: true })
+  })
+
+  it('通常乗換の isDetour プロパティが false になる', () => {
+    const transfer: Transfer = {
+      id: 'kuramae-transfer',
+      fromStationId: 'a',
+      toStationId: 'b',
+      walkMinutes: 5,
+    }
+    const f = buildTransferLineFeature(transfer, stationA, stationB)
+    expect(f.properties).toMatchObject({ isDetour: false })
   })
 })

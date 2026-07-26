@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { allTransfers, lines, stationsById } from './index.ts'
-import { buildTransferList } from './transferList.ts'
+import {
+  buildTransferList,
+  compareEntries,
+  type TransferEntry,
+} from './transferList.ts'
 
 describe('buildTransferList', () => {
   const entries = buildTransferList(lines, allTransfers, stationsById)
@@ -47,5 +51,64 @@ describe('buildTransferList', () => {
     const names = entries.map((e) => e.stationName)
     const sorted = [...names].sort((a, b) => a.localeCompare(b, 'ja'))
     expect(names).toEqual(sorted)
+  })
+
+  it('各エントリが stationIds（同名駅グループ）を空でなく持つ', () => {
+    for (const entry of entries) {
+      expect(
+        entry.stationIds.length,
+        `駅 '${entry.stationName}' の stationIds が空`,
+      ).toBeGreaterThan(0)
+    }
+  })
+
+  it('新宿の stationIds に山手線の新宿駅(jy08)が含まれる', () => {
+    const shinjuku = entries.find((e) => e.stationName === '新宿')!
+    expect(shinjuku.stationIds).toContain('jy08')
+  })
+
+  it('非公式乗換が toStationId を持つ', () => {
+    for (const entry of entries) {
+      for (const u of entry.unofficial) {
+        expect(
+          u.toStationId,
+          `${entry.stationName} → ${u.toStationName} の toStationId が空`,
+        ).toBeTruthy()
+      }
+    }
+  })
+})
+
+describe('compareEntries', () => {
+  const entry = (name: string, walks: number[] = []): TransferEntry => ({
+    stationName: name,
+    stationIds: ['x'],
+    officialLines: [],
+    unofficial: walks.map((w, i) => ({
+      toStationName: `to${i}`,
+      toStationId: `to${i}`,
+      toLines: [],
+      walkMinutes: w,
+    })),
+  })
+
+  it("name: 駅名の五十音順で比較する", () => {
+    expect(compareEntries(entry('渋谷'), entry('新宿'), 'name')).toBeLessThan(0)
+    expect(compareEntries(entry('新宿'), entry('渋谷'), 'name')).toBeGreaterThan(0)
+  })
+
+  it('walk: 徒歩時間が短い順。非公式乗換なし（公式のみ）は最後尾', () => {
+    const a = entry('A', [10])
+    const b = entry('B', [5])
+    const c = entry('C', [])
+    const sorted = [a, c, b].sort((x, y) => compareEntries(x, y, 'walk'))
+    expect(sorted.map((e) => e.stationName)).toEqual(['B', 'A', 'C'])
+  })
+
+  it('walk: 最小徒歩時間が同じなら駅名順', () => {
+    const a = entry('新宿', [5])
+    const b = entry('渋谷', [5])
+    const sorted = [a, b].sort((x, y) => compareEntries(x, y, 'walk'))
+    expect(sorted.map((e) => e.stationName)).toEqual(['渋谷', '新宿'])
   })
 })
