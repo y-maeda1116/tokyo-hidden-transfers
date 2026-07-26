@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import type { FeatureCollection } from 'geojson'
+import { Popup } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Line, Station, Transfer } from '../domain/types.ts'
 import {
@@ -15,6 +16,7 @@ import {
   transfersPaint,
 } from './layerStyles.ts'
 import { useMapInstance } from './useMapInstance.ts'
+import { buildStationTooltip } from './tooltip/tooltipHtml.ts'
 import { setupHoverPopups } from './tooltip/setupHoverPopups.ts'
 
 interface Props {
@@ -23,6 +25,8 @@ interface Props {
   stationsById: ReadonlyMap<string, Station>
   hiddenLineIds: ReadonlySet<string>
   suspensionMode: boolean
+  focusTarget: { stationId: string } | null
+  onFocusConsumed: () => void
 }
 
 /**
@@ -35,8 +39,11 @@ export function MapContainer({
   stationsById,
   hiddenLineIds,
   suspensionMode,
+  focusTarget,
+  onFocusConsumed,
 }: Props) {
   const { containerRef, mapRef, ready } = useMapInstance()
+  const popupRef = useRef<Popup | null>(null)
 
   const geojson = useMemo<{
     lines: FeatureCollection
@@ -105,6 +112,31 @@ export function MapContainer({
       tp['line-dasharray'],
     )
   }, [ready, suspensionMode, mapRef])
+
+  // リスト→地図ジャンプ。対象駅へ easeTo し popup を表示。消費後クリア。
+  useEffect(() => {
+    if (!ready) return
+    const map = mapRef.current
+    if (!map) return
+    if (!focusTarget) return
+    const station = stationsById.get(focusTarget.stationId)
+    if (!station) {
+      onFocusConsumed()
+      return
+    }
+    popupRef.current?.remove()
+    map.easeTo({ center: [station.lon, station.lat], zoom: 15 })
+    const popup = new Popup({
+      closeButton: false,
+      closeOnClick: true,
+      offset: 12,
+    })
+      .setHTML(buildStationTooltip(station, lineNameById))
+      .setLngLat([station.lon, station.lat])
+      .addTo(map)
+    popupRef.current = popup
+    onFocusConsumed()
+  }, [ready, focusTarget, mapRef, stationsById, lineNameById, onFocusConsumed])
 
   return (
     <div

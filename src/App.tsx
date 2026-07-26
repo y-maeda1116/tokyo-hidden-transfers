@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { allTransfers, lines, stationsById } from './data/index.ts'
 import { buildTransferList } from './data/transferList.ts'
 import { MapContainer } from './map/MapContainer.tsx'
@@ -9,6 +9,10 @@ import { TransferListView } from './ui/TransferListView.tsx'
 
 type Tab = 'map' | 'list'
 
+interface FocusTarget {
+  stationId: string
+}
+
 export function App() {
   const [tab, setTab] = useState<Tab>('map')
   // 地図タブの路線表示ON/OFF（非表示にした路線IDの集合）。新しい Set でイミュータブル更新。
@@ -17,6 +21,8 @@ export function App() {
   )
   // 山手線運休モード（山手線を薄くし、振替ルートを強調）
   const [suspensionMode, setSuspensionMode] = useState(false)
+  // リスト→地図へのジャンプ対象。消費後 null に戻し再ジャンプを可能にする。
+  const [focusTarget, setFocusTarget] = useState<FocusTarget | null>(null)
 
   // lines/allTransfers/stationsById は起動時に固定（イミュータブル）なので初回のみ生成
   const transferEntries = useMemo(
@@ -36,6 +42,17 @@ export function App() {
       return next
     })
   }
+
+  // リスト→地図へのジャンプ。タブを地図に切り替え、フォーカス対象を設定。
+  const handleSelectStation = useCallback((stationId: string): void => {
+    setTab('map')
+    setFocusTarget({ stationId })
+  }, [])
+
+  // MapContainer がフォーカスを消費したらクリア（再ジャンプを可能にする）
+  const handleFocusConsumed = useCallback((): void => {
+    setFocusTarget(null)
+  }, [])
 
   return (
     <div className="app">
@@ -65,6 +82,8 @@ export function App() {
               stationsById={stationsById}
               hiddenLineIds={hiddenLineIds}
               suspensionMode={suspensionMode}
+              focusTarget={focusTarget}
+              onFocusConsumed={handleFocusConsumed}
             />
             <SuspensionToggle
               active={suspensionMode}
@@ -77,7 +96,10 @@ export function App() {
             />
           </>
         ) : (
-          <TransferListView entries={transferEntries} />
+          <TransferListView
+            entries={transferEntries}
+            onSelectStation={handleSelectStation}
+          />
         )}
       </main>
     </div>

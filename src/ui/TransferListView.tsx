@@ -3,10 +3,12 @@ import type { TransferEntry } from '../data/transferList.ts'
 
 interface Props {
   entries: TransferEntry[]
+  onSelectStation: (stationId: string) => void
 }
 
-/** 乗換リスト（駅名インデックス形式）。公式乗換（同名駅の路線）と非公式乗換（徒歩先）を表示。 */
-export function TransferListView({ entries }: Props) {
+/** 乗換リスト（駅名インデックス形式）。公式乗換（同名駅の路線）と非公式乗換（徒歩先）を表示。
+ * 駅名・徒歩先をクリックすると地図タブへジャンプする。 */
+export function TransferListView({ entries, onSelectStation }: Props) {
   const [query, setQuery] = useState('')
   const trimmed = query.trim()
   const filtered = trimmed
@@ -33,7 +35,13 @@ export function TransferListView({ entries }: Props) {
         <ul className="transfer-entries">
           {filtered.map((entry, idx) => (
             <li key={`${entry.stationName}-${idx}`} className="transfer-entry">
-              <div className="transfer-entry-name">■ {entry.stationName}</div>
+              <button
+                type="button"
+                className="transfer-entry-name"
+                onClick={() => onSelectStation(entry.stationIds[0])}
+              >
+                ■ {entry.stationName}
+              </button>
               {entry.officialLines.length >= 2 && (
                 <div className="transfer-official">
                   <span className="transfer-label">公式:</span>
@@ -52,11 +60,22 @@ export function TransferListView({ entries }: Props) {
               {entry.unofficial.length > 0 && (
                 <ul className="transfer-unofficial">
                   {entry.unofficial.map((u, i) => (
-                    <li key={`${entry.stationName}-${u.toStationName}-${i}`} className="transfer-unofficial-item">
-                      <span className="transfer-arrow">→ {u.toStationName}</span>
+                    <li
+                      key={`${entry.stationName}-${u.toStationName}-${i}`}
+                      className="transfer-unofficial-item"
+                    >
+                      <button
+                        type="button"
+                        className="transfer-arrow"
+                        onClick={() => onSelectStation(u.toStationId)}
+                      >
+                        → {u.toStationName}
+                      </button>
                       <span className="transfer-unofficial-lines">
-                        （{u.toLines.map((l) => l.lineName).join(' / ')}・{u.walkMinutes}分）
+                        （{u.toLines.map((l) => l.lineName).join(' / ')}・
+                        {u.walkMinutes}分）
                       </span>
+                      {u.note && <span className="transfer-note"> {u.note}</span>}
                     </li>
                   ))}
                 </ul>

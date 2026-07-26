@@ -223,9 +223,20 @@ body {
   border-radius: 8px;
 }
 .transfer-entry-name {
+  display: block;
+  width: 100%;
   margin-bottom: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
   font-size: 16px;
   font-weight: 600;
+  color: #1a73e8;
+  text-align: left;
+  cursor: pointer;
+}
+.transfer-entry-name:hover {
+  text-decoration: underline;
 }
 .transfer-label {
   margin-right: 6px;
@@ -261,7 +272,20 @@ body {
   line-height: 1.5;
 }
 .transfer-arrow {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
   font-weight: 600;
+  color: #1a73e8;
+  cursor: pointer;
+}
+.transfer-arrow:hover {
+  text-decoration: underline;
+}
+.transfer-note {
+  color: #888888;
+  font-size: 12px;
 }
 .transfer-unofficial-lines {
   color: #555555;

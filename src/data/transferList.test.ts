@@ -48,4 +48,29 @@ describe('buildTransferList', () => {
     const sorted = [...names].sort((a, b) => a.localeCompare(b, 'ja'))
     expect(names).toEqual(sorted)
   })
+
+  it('各エントリが stationIds（同名駅グループ）を空でなく持つ', () => {
+    for (const entry of entries) {
+      expect(
+        entry.stationIds.length,
+        `駅 '${entry.stationName}' の stationIds が空`,
+      ).toBeGreaterThan(0)
+    }
+  })
+
+  it('新宿の stationIds に山手線の新宿駅(jy08)が含まれる', () => {
+    const shinjuku = entries.find((e) => e.stationName === '新宿')!
+    expect(shinjuku.stationIds).toContain('jy08')
+  })
+
+  it('非公式乗換が toStationId を持つ', () => {
+    for (const entry of entries) {
+      for (const u of entry.unofficial) {
+        expect(
+          u.toStationId,
+          `${entry.stationName} → ${u.toStationName} の toStationId が空`,
+        ).toBeTruthy()
+      }
+    }
+  })
 })
