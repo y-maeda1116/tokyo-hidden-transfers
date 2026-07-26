@@ -36,6 +36,14 @@ export function buildLineFeature(line: Line): Feature {
   }
 }
 
+/**
+ * 山手線運休時の振替（迂回）ルートか。
+ * transfers.ts で id を 'detour-' 始まりにする規約で識別する（純粋関数）。
+ */
+export function isDetourTransfer(transfer: Transfer): boolean {
+  return transfer.id.startsWith('detour-')
+}
+
 /** 非公式乗換の2駅を結ぶ LineString Feature を構築する。 */
 export function buildTransferLineFeature(
   transfer: Transfer,
@@ -58,6 +66,7 @@ export function buildTransferLineFeature(
       toStationId: transfer.toStationId,
       walkMinutes: transfer.walkMinutes,
       note: transfer.note,
+      isDetour: isDetourTransfer(transfer),
     },
   }
 }

@@ -4,6 +4,7 @@ import { buildTransferList } from './data/transferList.ts'
 import { MapContainer } from './map/MapContainer.tsx'
 import { Header } from './ui/Header.tsx'
 import { Legend } from './ui/Legend.tsx'
+import { SuspensionToggle } from './ui/SuspensionToggle.tsx'
 import { TransferListView } from './ui/TransferListView.tsx'
 
 type Tab = 'map' | 'list'
@@ -14,6 +15,8 @@ export function App() {
   const [hiddenLineIds, setHiddenLineIds] = useState<ReadonlySet<string>>(
     () => new Set(),
   )
+  // 山手線運休モード（山手線を薄くし、振替ルートを強調）
+  const [suspensionMode, setSuspensionMode] = useState(false)
 
   // lines/allTransfers/stationsById は起動時に固定（イミュータブル）なので初回のみ生成
   const transferEntries = useMemo(
@@ -61,6 +64,11 @@ export function App() {
               transfers={allTransfers}
               stationsById={stationsById}
               hiddenLineIds={hiddenLineIds}
+              suspensionMode={suspensionMode}
+            />
+            <SuspensionToggle
+              active={suspensionMode}
+              onToggle={() => setSuspensionMode((prev) => !prev)}
             />
             <Legend
               lines={lines}

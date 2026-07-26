@@ -9,7 +9,11 @@ import {
 } from '../geojson/builders.ts'
 import { addDataLayers } from './addDataLayers.ts'
 import { buildHiddenLineFilter } from './filters.ts'
-import { LAYER_IDS } from './layerStyles.ts'
+import {
+  LAYER_IDS,
+  linesPaint,
+  transfersPaint,
+} from './layerStyles.ts'
 import { useMapInstance } from './useMapInstance.ts'
 import { setupHoverPopups } from './tooltip/setupHoverPopups.ts'
 
@@ -18,6 +22,7 @@ interface Props {
   transfers: readonly Transfer[]
   stationsById: ReadonlyMap<string, Station>
   hiddenLineIds: ReadonlySet<string>
+  suspensionMode: boolean
 }
 
 /**
@@ -29,6 +34,7 @@ export function MapContainer({
   transfers,
   stationsById,
   hiddenLineIds,
+  suspensionMode,
 }: Props) {
   const { containerRef, mapRef, ready } = useMapInstance()
 
@@ -78,6 +84,27 @@ export function MapContainer({
       buildHiddenLineFilter(hiddenLineIds, 'lineId'),
     )
   }, [ready, hiddenLineIds, mapRef])
+
+  // 山手線運休モードの表示切替。lines/transfers の paint を suspensionMode で再適用。
+  useEffect(() => {
+    if (!ready) return
+    const map = mapRef.current
+    if (!map) return
+    if (!map.getLayer(LAYER_IDS.lines) || !map.getLayer(LAYER_IDS.transfers)) {
+      return
+    }
+    const lp = linesPaint(suspensionMode)
+    map.setPaintProperty(LAYER_IDS.lines, 'line-color', lp['line-color'])
+    map.setPaintProperty(LAYER_IDS.lines, 'line-width', lp['line-width'])
+    const tp = transfersPaint(suspensionMode)
+    map.setPaintProperty(LAYER_IDS.transfers, 'line-color', tp['line-color'])
+    map.setPaintProperty(LAYER_IDS.transfers, 'line-width', tp['line-width'])
+    map.setPaintProperty(
+      LAYER_IDS.transfers,
+      'line-dasharray',
+      tp['line-dasharray'],
+    )
+  }, [ready, suspensionMode, mapRef])
 
   return (
     <div
