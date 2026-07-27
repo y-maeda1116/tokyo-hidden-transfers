@@ -10,6 +10,20 @@ export default defineConfig({
   build: {
     // maplibre-gl は必須依存かつ大きいため、チャンクサイズ警告の閾値を緩和する。
     chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        // MapLibre v6 の worker.mjs は "./maplibre-gl-shared.mjs"（ハッシュなし）を
+        // 静的 import する。Vite は既定でハッシュ付きで出力するため、ファイル名を固定して
+        // worker の import パスと一致させないと本番で 404 になる。
+        assetFileNames: (assetInfo) => {
+          // assetInfo.name は Rollup の型上 undefined になり得るため null check する
+          if (assetInfo.name && assetInfo.name === 'maplibre-gl-shared.mjs') {
+            return 'assets/maplibre-gl-shared.mjs'
+          }
+          return 'assets/[name]-[hash][extname]'
+        },
+      },
+    },
   },
   test: {
     environment: 'node',
