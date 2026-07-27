@@ -18,8 +18,8 @@ export const transfers: readonly Transfer[] = [
     id: 'asakusa-ginza-tx',
     fromStationId: 'g19',
     toStationId: 'asakusa-tx',
-    walkMinutes: 12,
-    note: '約1km離れた別駅',
+    walkMinutes: 10,
+    note: '約600m離れた別駅',
   },
   {
     id: 'asakusa-ginza-asakusa',
