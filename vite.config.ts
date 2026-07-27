@@ -16,7 +16,8 @@ export default defineConfig({
         // 静的 import する。Vite は既定でハッシュ付きで出力するため、ファイル名を固定して
         // worker の import パスと一致させないと本番で 404 になる。
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'maplibre-gl-shared.mjs') {
+          // assetInfo.name は Rollup の型上 undefined になり得るため null check する
+          if (assetInfo.name && assetInfo.name === 'maplibre-gl-shared.mjs') {
             return 'assets/maplibre-gl-shared.mjs'
           }
           return 'assets/[name]-[hash][extname]'
