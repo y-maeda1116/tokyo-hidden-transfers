@@ -17,16 +17,14 @@ export function buildStationPoint(station: Station, color: string): Feature {
   }
 }
 
-/** 路線の駅順に LineString Feature を構築する。 */
+/** 路線の駅順に LineString Feature を構築する。closed（環状路線）は始点に戻って閉じる。 */
 export function buildLineFeature(line: Line): Feature {
+  const base = line.stations.map((s): [number, number] => [s.lon, s.lat])
+  // 環状路線は始点を末尾に追加して線を閉じる（山手線など）
+  const coordinates = line.closed && base.length > 0 ? [...base, base[0]] : base
   return {
     type: 'Feature',
-    geometry: {
-      type: 'LineString',
-      coordinates: line.stations.map(
-        (s): [number, number] => [s.lon, s.lat],
-      ),
-    },
+    geometry: { type: 'LineString', coordinates },
     properties: {
       kind: 'line',
       id: line.id,
