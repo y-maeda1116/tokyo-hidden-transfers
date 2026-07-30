@@ -22,6 +22,8 @@ export const LineSchema = z.object({
   name: z.string().min(1),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   stations: z.array(StationSchema).min(2),
+  // 環状路線（山手線など）。true のとき LineString の始点を末尾に追加して線を閉じる。
+  closed: z.boolean().optional(),
 })
 
 /**

@@ -67,6 +67,25 @@ describe('buildLineFeature', () => {
       color: '#e60012',
     })
   })
+
+  it('closed=true の路線は始点を末尾に追加して環を閉じる', () => {
+    const loopLine: Line = { ...line, closed: true }
+    const f = buildLineFeature(loopLine)
+    if (f.geometry.type === 'LineString') {
+      expect(f.geometry.coordinates).toEqual([
+        [139.7, 35.7],
+        [139.8, 35.8],
+        [139.7, 35.7],
+      ])
+    }
+  })
+
+  it('closed 省略時は線を閉じない', () => {
+    const f = buildLineFeature(line)
+    if (f.geometry.type === 'LineString') {
+      expect(f.geometry.coordinates).toHaveLength(2)
+    }
+  })
 })
 
 describe('buildTransferLineFeature', () => {

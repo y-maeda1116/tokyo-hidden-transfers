@@ -3,11 +3,11 @@ import type { Line } from '../../domain/types.ts'
 // JR東日本 山手線 全30駅（JY01大崎→JY30品川、外回り順・環状運転）。座標は WGS84。
 // 座標は主要ターミナルの公開座標を基準にした推定値（誤差数十〜数百mの可能性）。
 // GitHub Pages 上で要目視確認。正確化は OSM route relation 等での取得を推奨。
-// 注: 既存の LineString 描画の都合で品川(JY30)→大崎(JY01) の結線は閉じない。
 export const yamanoteLine: Line = {
   id: 'yamanote',
   name: 'JR山手線',
   color: '#9acd32',
+  closed: true, // 環状運転: 品川(JY30)→大崎(JY01) へ戻り線を描画して環を閉じる
   stations: [
     { id: 'jy01', name: '大崎', lineId: 'yamanote', lon: 139.7285, lat: 35.6197 },
     { id: 'jy02', name: '五反田', lineId: 'yamanote', lon: 139.7224, lat: 35.6264 },
