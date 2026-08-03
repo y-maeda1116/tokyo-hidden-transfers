@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react'
 
 // GitHub Pages は /tokyo-hidden-transfers/ サブパスで配信されるため、
 // base を設定してビルド成果物のアセットパスを解決する。
+// dev ブランチは /tokyo-hidden-transfers/dev/ に配置するため、CI で VITE_BASE を上書きする。
 export default defineConfig({
   plugins: [react()],
-  base: '/tokyo-hidden-transfers/',
+  base: process.env.VITE_BASE ?? '/tokyo-hidden-transfers/',
   build: {
     // maplibre-gl は必須依存かつ大きいため、チャンクサイズ警告の閾値を緩和する。
     chunkSizeWarningLimit: 1500,
