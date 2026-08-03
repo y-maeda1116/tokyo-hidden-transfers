@@ -103,6 +103,7 @@ export function MapContainer({
     const lp = linesPaint(suspensionMode)
     map.setPaintProperty(LAYER_IDS.lines, 'line-color', lp['line-color'])
     map.setPaintProperty(LAYER_IDS.lines, 'line-width', lp['line-width'])
+    map.setPaintProperty(LAYER_IDS.lines, 'line-opacity', lp['line-opacity'])
     const tp = transfersPaint(suspensionMode)
     map.setPaintProperty(LAYER_IDS.transfers, 'line-color', tp['line-color'])
     map.setPaintProperty(LAYER_IDS.transfers, 'line-width', tp['line-width'])

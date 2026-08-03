@@ -48,6 +48,13 @@ describe('buildStationPoint', () => {
       color: '#e60012',
     })
   })
+
+  it('mode を properties に保持する', () => {
+    const busStop: Station = { ...stationA, mode: 'bus' }
+    expect(buildStationPoint(busStop, '#e60012').properties).toMatchObject({
+      mode: 'bus',
+    })
+  })
 })
 
 describe('buildLineFeature', () => {
@@ -85,6 +92,11 @@ describe('buildLineFeature', () => {
     if (f.geometry.type === 'LineString') {
       expect(f.geometry.coordinates).toHaveLength(2)
     }
+  })
+
+  it('mode を properties に保持する', () => {
+    const busLine: Line = { ...line, mode: 'bus' }
+    expect(buildLineFeature(busLine).properties).toMatchObject({ mode: 'bus' })
   })
 })
 

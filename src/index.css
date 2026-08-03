@@ -123,6 +123,18 @@ body {
   width: 18px;
   border-top: 2px dashed #555555;
 }
+.legend-bus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 0;
+}
+.legend-thin-solid {
+  display: inline-block;
+  width: 18px;
+  border-top: 2px solid #888888;
+  opacity: 0.7;
+}
 
 /* ツールチップ（MapLibre Popup 内） */
 .tooltip {
