@@ -52,4 +52,32 @@ describe('parseGtfsRecords', () => {
       { stopId: 'S1', name: '浅草雷門', lat: 35.71, lon: 139.79 },
     ])
   })
+
+  it('trip_id 欠損の trip はスキップする', () => {
+    expect(parseTrips([{ route_id: 'R1', shape_id: 'SH1' }])).toEqual([])
+  })
+
+  it('route_id 欠損の trip はスキップする', () => {
+    expect(parseTrips([{ trip_id: 'T1', shape_id: 'SH1' }])).toEqual([])
+  })
+
+  it('stop_lat が非数値ならその行をスキップする', () => {
+    expect(parseStops([{ stop_id: 'S1', stop_name: '浅草雷門', stop_lat: 'abc', stop_lon: '139.79' }])).toEqual([])
+  })
+
+  it('stop_lat が空文字ならその行をスキップする', () => {
+    expect(parseStops([{ stop_id: 'S1', stop_name: '浅草雷門', stop_lat: '', stop_lon: '139.79' }])).toEqual([])
+  })
+
+  it('stop_id 欠損の stop はスキップする', () => {
+    expect(parseStops([{ stop_name: '浅草雷門', stop_lat: '35.71', stop_lon: '139.79' }])).toEqual([])
+  })
+
+  it('stop_name 欠損の stop はスキップする', () => {
+    expect(parseStops([{ stop_id: 'S1', stop_lat: '35.71', stop_lon: '139.79' }])).toEqual([])
+  })
+
+  it('route_color は小文字 hex を大文字 #RRGGBB に正規化する', () => {
+    expect(parseRoutes([{ route_id: 'R1', route_short_name: 'S', route_long_name: 'L', route_color: '7ac46b' }])[0].color).toBe('#7AC46B')
+  })
 })
