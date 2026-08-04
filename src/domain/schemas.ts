@@ -3,6 +3,7 @@ import { z } from 'zod'
 /**
  * 駅: 地図上の1点（Point）を表す。
  * lon/lat は WGS84（経度/緯度）。GeoJSON は [lon, lat] 順で扱う。
+ * mode は交通手段（rail/bus/tram）。省略時は rail 扱い（描画で mode 未設定を rail と解釈）。
  */
 export const StationSchema = z.object({
   id: z.string().min(1),
@@ -10,18 +11,22 @@ export const StationSchema = z.object({
   lineId: z.string().min(1),
   lon: z.number(),
   lat: z.number(),
+  mode: z.enum(['rail', 'bus', 'tram']).optional(),
 })
 
 /**
  * 路線: 駅を順に結ぶ折れ線（LineString）。
  * LineString の要件（2点以上）を保証するため stations は2駅以上必須。
  * color は #RRGGBB 6桁のみ許可。
+ * mode は交通手段（rail/bus/tram）。省略時は rail 扱い。
+ *   bus は「鉄道で直接繋がらない2点を結ぶ系統」に限定して追加する（編集ルール）。
  */
 export const LineSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   stations: z.array(StationSchema).min(2),
+  mode: z.enum(['rail', 'bus', 'tram']).optional(),
   // 環状路線（山手線など）。true のとき LineString の始点を末尾に追加して線を閉じる。
   closed: z.boolean().optional(),
 })

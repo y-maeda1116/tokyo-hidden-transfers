@@ -23,6 +23,7 @@ import { tozaiLine } from './lines/tozaiLine.ts'
 import { tsukubaExpress } from './lines/tsukubaExpress.ts'
 import { yamanoteLine } from './lines/yamanoteLine.ts'
 import { yurakuchoLine } from './lines/yurakuchoLine.ts'
+import { kusa43Line } from './lines/kusa43Line.ts'
 import { transfers } from './transfers.ts'
 
 // 起動時に zod で検証し、不正データなら即座に失敗させる（フェイルファスト）。
@@ -50,6 +51,7 @@ const validatedLines: Line[] = LineSchema.array().parse([
   odakyuLine,
   seibuShinjukuLine,
   toyokoLine,
+  kusa43Line,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
 

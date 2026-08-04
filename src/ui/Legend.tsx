@@ -41,6 +41,10 @@ export function Legend({ lines, hiddenLineIds, onToggleLine }: Props) {
         <span className="legend-dashed" aria-hidden="true" />
         <span>非公式乗換（徒歩連絡）</span>
       </p>
+      <p className="legend-bus">
+        <span className="legend-thin-solid" aria-hidden="true" />
+        <span>バス路線（鉄道網の隙間を埋める）</span>
+      </p>
     </aside>
   )
 }

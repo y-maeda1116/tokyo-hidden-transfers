@@ -13,6 +13,7 @@ export function buildStationPoint(station: Station, color: string): Feature {
       name: station.name,
       lineId: station.lineId,
       color,
+      mode: station.mode,
     },
   }
 }
@@ -30,6 +31,7 @@ export function buildLineFeature(line: Line): Feature {
       id: line.id,
       name: line.name,
       color: line.color,
+      mode: line.mode,
     },
   }
 }

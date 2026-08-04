@@ -29,6 +29,22 @@ describe('StationSchema', () => {
       StationSchema.parse({ ...validStation, lon: '139' as unknown as number }),
     ).toThrow()
   })
+
+  it('mode に rail/bus/tram を受理する', () => {
+    expect(StationSchema.parse({ ...validStation, mode: 'bus' }).mode).toBe('bus')
+    expect(StationSchema.parse({ ...validStation, mode: 'tram' }).mode).toBe('tram')
+    expect(StationSchema.parse({ ...validStation, mode: 'rail' }).mode).toBe('rail')
+  })
+
+  it('mode を省略できる（rail 既定）', () => {
+    expect(StationSchema.parse(validStation).mode).toBeUndefined()
+  })
+
+  it('無効な mode を拒否する', () => {
+    expect(() =>
+      StationSchema.parse({ ...validStation, mode: 'ferry' }),
+    ).toThrow()
+  })
 })
 
 describe('LineSchema', () => {
@@ -58,6 +74,14 @@ describe('LineSchema', () => {
     expect(() =>
       LineSchema.parse({ ...baseLine, stations: [validStation] }),
     ).toThrow()
+  })
+
+  it('mode に rail/bus/tram を受理する', () => {
+    expect(LineSchema.parse({ ...baseLine, mode: 'bus' }).mode).toBe('bus')
+  })
+
+  it('無効な mode を拒否する', () => {
+    expect(() => LineSchema.parse({ ...baseLine, mode: 'ferry' })).toThrow()
   })
 })
 

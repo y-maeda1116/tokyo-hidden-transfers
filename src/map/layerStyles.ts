@@ -27,6 +27,8 @@ const SUSPENDED_COLOR = '#cccccc'
 /**
  * 路線レイヤーの paint。suspensionMode=true のとき山手線だけ薄グレー・細線にする。
  * 初回 addLayer と setPaintProperty の両方へ渡せるよう純粋関数として分離。
+ * bus 路線（mode==='bus'）は鉄道より細く半透明にし、徒歩乗換（破線）との三段階で視覚分離する。
+ * mode 未設定（feature に mode が無い＝null 判定）は rail 既定へフォールスルー。
  */
 export function linesPaint(
   suspensionMode: boolean,
@@ -43,12 +45,31 @@ export function linesPaint(
           'case',
           ['==', ['get', 'id'], YAMANOTE_LINE_ID],
           2,
+          ['==', ['get', 'mode'], 'bus'],
+          2,
           4,
+        ],
+        'line-opacity': [
+          'case',
+          ['==', ['get', 'mode'], 'bus'],
+          0.7,
+          1,
         ],
       }
     : {
         'line-color': ['get', 'color'],
-        'line-width': 4,
+        'line-width': [
+          'case',
+          ['==', ['get', 'mode'], 'bus'],
+          2,
+          4,
+        ],
+        'line-opacity': [
+          'case',
+          ['==', ['get', 'mode'], 'bus'],
+          0.7,
+          1,
+        ],
       }
 }
 
