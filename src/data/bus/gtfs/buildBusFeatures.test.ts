@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest'
 import { buildBusFeatures } from './buildBusFeatures.ts'
 import type { GtfsRecords } from './types.ts'
+import { FeatureCollectionSchema } from '../../../domain/geojsonSchema.ts'
 
 const baseRecords: GtfsRecords = {
   routes: [
@@ -69,5 +70,11 @@ describe('buildBusFeatures', () => {
     const { routes, stops } = buildBusFeatures(baseRecords, { tolerance: 0 })
     expect(routes.type).toBe('FeatureCollection')
     expect(stops.type).toBe('FeatureCollection')
+  })
+
+  it('生成物は FeatureCollectionSchema で検証可能である', () => {
+    const { routes, stops } = buildBusFeatures(baseRecords, { tolerance: 0 })
+    expect(() => FeatureCollectionSchema.parse(routes)).not.toThrow()
+    expect(() => FeatureCollectionSchema.parse(stops)).not.toThrow()
   })
 })
