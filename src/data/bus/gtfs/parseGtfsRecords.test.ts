@@ -80,4 +80,16 @@ describe('parseGtfsRecords', () => {
   it('route_color は小文字 hex を大文字 #RRGGBB に正規化する', () => {
     expect(parseRoutes([{ route_id: 'R1', route_short_name: 'S', route_long_name: 'L', route_color: '7ac46b' }])[0].color).toBe('#7AC46B')
   })
+
+  it('route_long_name が空文字の路線もパースされ longName は空になる（都営バス）', () => {
+    expect(parseRoutes([{ route_id: '002', route_short_name: '波０１（ＮＭ０１）', route_long_name: '' }])).toEqual([
+      { routeId: '002', shortName: '波０１（ＮＭ０１）', longName: '' },
+    ])
+  })
+
+  it('route_long_name 未設定の路線もパースされ longName は空になる', () => {
+    expect(parseRoutes([{ route_id: 'R1', route_short_name: '上26' }])).toEqual([
+      { routeId: 'R1', shortName: '上26', longName: '' },
+    ])
+  })
 })

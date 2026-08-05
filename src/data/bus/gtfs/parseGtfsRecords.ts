@@ -24,8 +24,9 @@ export function parseRoutes(
     .map((row): GtfsRoute | null => {
       const routeId = row.route_id
       const shortName = row.route_short_name
-      const longName = row.route_long_name
-      if (!routeId || !shortName || !longName) return null
+      if (!routeId || !shortName) return null
+      // 都営バスなど route_long_name が空の事業者があるため空文字を許可する
+      const longName = row.route_long_name ?? ''
       return {
         routeId,
         shortName,
