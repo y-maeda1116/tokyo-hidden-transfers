@@ -14,7 +14,8 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:bus": "tsx scripts/build-bus-geojson.ts"
   },
   "dependencies": {
     "maplibre-gl": "^6.0.0",
@@ -35,6 +36,7 @@
     "eslint": "^10.0.0",
     "eslint-plugin-security": "^4.0.1",
     "globals": "^17.8.0",
+    "tsx": "^4.23.7",
     "typescript": "^7.0.0",
     "unzipper": "^0.12.5",
     "vite": "^8.1.5",
