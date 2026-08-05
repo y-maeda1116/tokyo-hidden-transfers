@@ -3,8 +3,8 @@ import type { Feature, FeatureCollection } from 'geojson'
 import type { GtfsRecords } from './types.ts'
 import { simplifyShape } from './simplifyShape.ts'
 
-/** 都バス標準色（route_color 未設定時のフォールバック）。 */
-export const DEFAULT_BUS_COLOR = '#00853f'
+/** 都バス標準色（route_color 未設定時のフォールバック）。normalizeColor と同じ #RRGGBB 大文字表記に統一。 */
+export const DEFAULT_BUS_COLOR = '#00853F'
 
 export interface BuildBusFeaturesOptions {
   /** 簡略化の許容誤差（度単位）。0 で簡略化なし。 */

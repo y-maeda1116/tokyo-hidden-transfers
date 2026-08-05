@@ -33,10 +33,10 @@ describe('buildBusFeatures', () => {
     expect(r1?.properties).toMatchObject({ kind: 'bus-route', shortName: '上26', longName: '亀戸-東京', color: '#7AC46B' })
   })
 
-  it('route_color 未設定時は既定色 #00853f でフォールバックする', () => {
+  it('route_color 未設定時は既定色 #00853F でフォールバックする', () => {
     const { routes } = buildBusFeatures(baseRecords, { tolerance: 0 })
     const r2 = routes.features.find((f) => f.properties?.routeId === 'R2')
-    expect(r2?.properties?.color).toBe('#00853f')
+    expect(r2?.properties?.color).toBe('#00853F')
   })
 
   it('停留所を Point Feature に変換する', () => {
