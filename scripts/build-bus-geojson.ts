@@ -38,8 +38,8 @@ async function main(): Promise<void> {
   const validatedStops = FeatureCollectionSchema.parse(stops)
 
   await mkdir(outDir, { recursive: true })
-  await writeFile(resolve(outDir, 'bus-routes.json'), JSON.stringify(validatedRoutes))
-  await writeFile(resolve(outDir, 'bus-stops.json'), JSON.stringify(validatedStops))
+  await writeFile(resolve(outDir, 'bus-routes.json'), JSON.stringify(validatedRoutes, null, 2))
+  await writeFile(resolve(outDir, 'bus-stops.json'), JSON.stringify(validatedStops, null, 2))
   console.log(
     `出力完了: bus-routes.json (${routes.features.length} features), bus-stops.json (${stops.features.length} features)`,
   )
