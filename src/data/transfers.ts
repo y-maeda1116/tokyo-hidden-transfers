@@ -183,19 +183,4 @@ export const transfers: readonly Transfer[] = [
     walkMinutes: 5,
     note: '三田線・浅草線（三田）へ',
   },
-  // === バス路線と鉄道駅の徒歩連絡（鉄道網の隙間をバスで埋める） ===
-  {
-    id: 'bus-kusa43-asakusa',
-    fromStationId: 'g19',
-    toStationId: 'k43-01',
-    walkMinutes: 5,
-    note: '浅草雷門（都営バス草43）への徒歩連絡',
-  },
-  {
-    id: 'bus-kusa43-kitasenju',
-    fromStationId: 'h22',
-    toStationId: 'k43-09',
-    walkMinutes: 10,
-    note: '千住大橋（都営バス草43）への徒歩連絡',
-  },
 ]
