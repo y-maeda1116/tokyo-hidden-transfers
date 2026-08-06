@@ -101,6 +101,7 @@ export function App() {
               lines={lines}
               hiddenLineIds={hiddenLineIds}
               onToggleLine={toggleLine}
+              busVisible={busVisible}
             />
           </>
         ) : (

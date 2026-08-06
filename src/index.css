@@ -135,6 +135,16 @@ body {
   border-top: 2px solid #888888;
   opacity: 0.7;
 }
+.legend-bus.is-hidden {
+  opacity: 0.4;
+}
+.legend-source {
+  margin: 6px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid #eeeeee;
+  color: #888888;
+  font-size: 11px;
+}
 
 /* ツールチップ（MapLibre Popup 内） */
 .tooltip {
