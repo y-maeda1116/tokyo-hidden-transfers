@@ -203,6 +203,30 @@ body {
   color: #ffffff;
 }
 
+/* 都バス表示切替（地図左上オーバーレイ・運休トグルの下） */
+.bus-toggle {
+  position: absolute;
+  top: 54px;
+  left: 12px;
+  z-index: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bus-toggle:hover {
+  background: #ffffff;
+}
+.bus-toggle.active {
+  background: #00853f;
+  color: #ffffff;
+}
+
 /* 乗換リスト */
 .transfer-list {
   position: absolute;
