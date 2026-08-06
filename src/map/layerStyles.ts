@@ -7,12 +7,16 @@ export const SOURCE_IDS = {
   lines: 'lines-source',
   transfers: 'transfers-source',
   stations: 'stations-source',
+  busRoutes: 'bus-routes-source',
+  busStops: 'bus-stops-source',
 } as const
 
 export const LAYER_IDS = {
   lines: 'lines-layer',
   transfers: 'transfers-layer',
   stations: 'stations-layer',
+  busRoutes: 'bus-routes-layer',
+  busStops: 'bus-stops-layer',
 } as const
 
 /** 山手線の路線ID（運休モードで薄化対象）。 */
@@ -124,6 +128,37 @@ export const transfersLayer = (
   source: SOURCE_IDS.transfers,
   layout: { 'line-cap': 'round' },
   paint: transfersPaint(suspensionMode),
+})
+
+/** 都営バス標準色（停留所の既定色・GTFS の route_color が停留所には無いため）。 */
+const DEFAULT_BUS_COLOR = '#00853F'
+
+// 都バス路線: 路線色（feature.properties.color）、細線・半透明。ズーム12以上で描画。
+export const busRoutesLayer = (): LineLayerSpecification => ({
+  id: LAYER_IDS.busRoutes,
+  type: 'line',
+  source: SOURCE_IDS.busRoutes,
+  minzoom: 12,
+  layout: { 'line-join': 'round', 'line-cap': 'round' },
+  paint: {
+    'line-color': ['get', 'color'],
+    'line-width': 2,
+    'line-opacity': 0.7,
+  },
+})
+
+// 都バス停留所: 小さな円。停留所 Feature は路線色を持たないため固定色。ズーム14以上。
+export const busStopsLayer = (): CircleLayerSpecification => ({
+  id: LAYER_IDS.busStops,
+  type: 'circle',
+  source: SOURCE_IDS.busStops,
+  minzoom: 14,
+  paint: {
+    'circle-radius': 4,
+    'circle-color': DEFAULT_BUS_COLOR,
+    'circle-stroke-width': 1,
+    'circle-stroke-color': '#ffffff',
+  },
 })
 
 // 駅マーカー: 円、路線色＋白縁
