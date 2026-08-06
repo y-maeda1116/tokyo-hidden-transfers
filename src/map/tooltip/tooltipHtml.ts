@@ -55,3 +55,14 @@ export function buildTransferTooltip(
     '</div>'
   )
 }
+
+/** 都バス路線ホバー用のツールチップ HTML を生成する。shortName/longName をエスケープ。 */
+export function buildBusRouteTooltip(properties: {
+  shortName?: unknown
+  longName?: unknown
+}): string {
+  const short = typeof properties.shortName === 'string' ? properties.shortName : ''
+  const long = typeof properties.longName === 'string' ? properties.longName : ''
+  const label = short && long ? `${short} ${long}` : short || long || '都営バス'
+  return '<div class="tooltip"><strong>' + escapeHtml(label) + '</strong></div>'
+}

@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { Station, Transfer } from '../../domain/types.ts'
-import { buildStationTooltip, buildTransferTooltip } from './tooltipHtml.ts'
+import {
+  buildBusRouteTooltip,
+  buildStationTooltip,
+  buildTransferTooltip,
+} from './tooltipHtml.ts'
 
 const lineNameById = new Map([
   ['asakusa', '都営浅草線'],
@@ -88,5 +92,30 @@ describe('buildTransferTooltip', () => {
     const html = buildTransferTooltip(evil, from, to, lineNameById)
     expect(html).not.toContain('<img')
     expect(html).toContain('&lt;img')
+  })
+})
+
+describe('buildBusRouteTooltip', () => {
+  it('系統名（short + long）を表示する', () => {
+    const html = buildBusRouteTooltip({ shortName: '上26', longName: '亀戸駅前-東京駅' })
+    expect(html).toContain('上26')
+    expect(html).toContain('亀戸駅前-東京駅')
+  })
+
+  it('longName 空は shortName のみを表示する', () => {
+    const html = buildBusRouteTooltip({ shortName: '草43', longName: '' })
+    expect(html).toContain('草43')
+    expect(html).not.toMatch(/<strong>\s*<\/strong>/)
+  })
+
+  it('XSS: 不正文字をエスケープする', () => {
+    const html = buildBusRouteTooltip({ shortName: '<script>', longName: '' })
+    expect(html).toContain('&lt;script&gt;')
+    expect(html).not.toContain('<script>')
+  })
+
+  it('両方欠損時はフォールバック表示', () => {
+    const html = buildBusRouteTooltip({})
+    expect(html).toContain('都営バス')
   })
 })
