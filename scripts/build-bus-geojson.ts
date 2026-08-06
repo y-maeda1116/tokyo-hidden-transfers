@@ -1,5 +1,5 @@
 // scripts/build-bus-geojson.ts
-// 都営バス GTFS-JP zip を読み込み、路線・停留所 GeoJSON（.json）を src/data/bus/ に出力する。
+// 都営バス GTFS-JP zip を読み込み、路線・停留所 GeoJSON（.json）を public/data/ に出力する。
 // 【データ取得元】公共交通オープンデータセンター / 東京都オープンデータカタログ の都営バス GTFS-JP。
 //   https://catalog.data.metro.tokyo.lg.jp/dataset/t000018d0000000052
 // 実行: npm run build:bus -- <path-to-gtfs.zip>
@@ -13,7 +13,7 @@ import { parseGtfsZip } from '../src/data/bus/gtfs/parseGtfsZip.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const projectRoot = resolve(here, '..')
-const outDir = resolve(projectRoot, 'src/data/bus')
+const outDir = resolve(projectRoot, 'public/data')
 
 // 簡略化の許容誤差（度単位）。0.00005 度 ≒ 5.5m。
 const TOLERANCE_DEG = 0.00005
