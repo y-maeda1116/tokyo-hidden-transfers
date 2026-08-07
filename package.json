@@ -18,7 +18,7 @@
     "build:bus": "tsx scripts/build-bus-geojson.ts"
   },
   "dependencies": {
-    "maplibre-gl": "^6.0.0",
+    "maplibre-gl": "^6.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.8",
     "zod": "^4.4.0"
@@ -27,10 +27,10 @@
     "@eslint/js": "^10.0.0",
     "@types/geojson": "^7946.0.0",
     "@types/node": "^26.1.2",
-    "@types/react": "^19.2.0",
+    "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.0",
     "@types/unzipper": "0.10.11",
-    "@vitejs/plugin-react": "^6.0.4",
+    "@vitejs/plugin-react": "^6.0.5",
     "@vitest/coverage-v8": "^4.1.0",
     "csv-parse": "^5.6.0",
     "eslint": "^10.0.0",
@@ -39,7 +39,7 @@
     "tsx": "^4.23.7",
     "typescript": "^7.0.0",
     "unzipper": "^0.12.5",
-    "vite": "^8.1.5",
+    "vite": "^8.2.0",
     "vitest": "^4.1.0"
   }
 }
