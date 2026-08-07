@@ -25,8 +25,13 @@ export async function parseGtfsZip(zipBuffer: Buffer): Promise<GtfsRecords> {
     )
   }
 
-  const decode = (name: string): Record<string, string>[] =>
-    [...parseCsv(files.get(name)!.toString('utf8'))]
+  const decode = (name: string): Record<string, string>[] => {
+    const buffer = files.get(name)
+    if (!buffer) {
+      throw new Error(`GTFS 必須ファイル ${name} の読み込みに失敗しました`)
+    }
+    return [...parseCsv(buffer.toString('utf8'))]
+  }
 
   return {
     routes: parseRoutes(decode('routes.txt')),

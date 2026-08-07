@@ -40,6 +40,7 @@ export function useBusLayers({ map, ready, busVisible }: Args): void {
         .then((data) => {
           dataRef.current = data
           setBusData(data)
+          fetchingRef.current = false
         })
         .catch((error: unknown) => {
           fetchingRef.current = false
