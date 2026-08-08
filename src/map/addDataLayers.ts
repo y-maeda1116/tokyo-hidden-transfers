@@ -1,6 +1,14 @@
 import type { FeatureCollection } from 'geojson'
 import type { Map } from 'maplibre-gl'
-import { SOURCE_IDS, linesLayer, stationsLayer, transfersLayer } from './layerStyles.ts'
+import {
+  busRoutesLayer,
+  busStopsLayer,
+  linesLayer,
+  stationsLayer,
+  transfersLayer,
+  SOURCE_IDS,
+  LAYER_IDS,
+} from './layerStyles.ts'
 
 interface MapData {
   lines: FeatureCollection
@@ -24,4 +32,22 @@ export function addDataLayers(map: Map, data: MapData): void {
   map.addLayer(linesLayer())
   map.addLayer(transfersLayer())
   map.addLayer(stationsLayer())
+}
+
+interface BusLayerData {
+  routes: FeatureCollection
+  stops: FeatureCollection
+}
+
+/**
+ * 都バスの source/layer を追加する（lazy fetch 後に呼ぶ）。
+ * 鉄道レイヤー（lines-layer）の下に挿入し、鉄道の視認性を優先する（設計§6）。
+ * 重複追加防止は呼出側で source 存在確認を行うこと。
+ */
+export function addBusLayers(map: Map, data: BusLayerData): void {
+  map.addSource(SOURCE_IDS.busRoutes, { type: 'geojson', data: data.routes })
+  map.addSource(SOURCE_IDS.busStops, { type: 'geojson', data: data.stops })
+  // beforeId = lines-layer の直前（＝下）に挿入。bus-routes → bus-stops → lines の順。
+  map.addLayer(busRoutesLayer(), LAYER_IDS.lines)
+  map.addLayer(busStopsLayer(), LAYER_IDS.lines)
 }

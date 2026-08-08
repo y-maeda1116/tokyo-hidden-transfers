@@ -4,6 +4,7 @@ import { buildTransferList } from './data/transferList.ts'
 import { MapContainer } from './map/MapContainer.tsx'
 import { Header } from './ui/Header.tsx'
 import { Legend } from './ui/Legend.tsx'
+import { BusToggle } from './ui/BusToggle.tsx'
 import { SuspensionToggle } from './ui/SuspensionToggle.tsx'
 import { TransferListView } from './ui/TransferListView.tsx'
 
@@ -21,6 +22,8 @@ export function App() {
   )
   // 山手線運休モード（山手線を薄くし、振替ルートを強調）
   const [suspensionMode, setSuspensionMode] = useState(false)
+  // 都バス全系統の表示ON/OFF（デフォルトON）。minzoom 制御で広域時は描画されないため初期ロード影響は限定的。
+  const [busVisible, setBusVisible] = useState(true)
   // リスト→地図へのジャンプ対象。消費後 null に戻し再ジャンプを可能にする。
   const [focusTarget, setFocusTarget] = useState<FocusTarget | null>(null)
 
@@ -82,6 +85,7 @@ export function App() {
               stationsById={stationsById}
               hiddenLineIds={hiddenLineIds}
               suspensionMode={suspensionMode}
+              busVisible={busVisible}
               focusTarget={focusTarget}
               onFocusConsumed={handleFocusConsumed}
             />
@@ -89,10 +93,15 @@ export function App() {
               active={suspensionMode}
               onToggle={() => setSuspensionMode((prev) => !prev)}
             />
+            <BusToggle
+              active={busVisible}
+              onToggle={() => setBusVisible((prev) => !prev)}
+            />
             <Legend
               lines={lines}
               hiddenLineIds={hiddenLineIds}
               onToggleLine={toggleLine}
+              busVisible={busVisible}
             />
           </>
         ) : (

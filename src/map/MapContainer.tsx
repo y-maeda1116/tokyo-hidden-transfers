@@ -15,6 +15,7 @@ import {
   linesPaint,
   transfersPaint,
 } from './layerStyles.ts'
+import { useBusLayers } from './useBusLayers.ts'
 import { useMapInstance } from './useMapInstance.ts'
 import { buildStationTooltip } from './tooltip/tooltipHtml.ts'
 import { setupHoverPopups } from './tooltip/setupHoverPopups.ts'
@@ -25,6 +26,7 @@ interface Props {
   stationsById: ReadonlyMap<string, Station>
   hiddenLineIds: ReadonlySet<string>
   suspensionMode: boolean
+  busVisible: boolean
   focusTarget: { stationId: string } | null
   onFocusConsumed: () => void
 }
@@ -39,11 +41,14 @@ export function MapContainer({
   stationsById,
   hiddenLineIds,
   suspensionMode,
+  busVisible,
   focusTarget,
   onFocusConsumed,
 }: Props) {
   const { containerRef, mapRef, ready } = useMapInstance()
   const popupRef = useRef<Popup | null>(null)
+
+  useBusLayers({ map: mapRef.current, ready, busVisible })
 
   const geojson = useMemo<{
     lines: FeatureCollection

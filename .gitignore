@@ -31,3 +31,6 @@ Thumbs.db
 
 # Serena (tooling metadata)
 .serena/
+
+# Build inputs (GTFS source zip — not committed; regenerated via build:bus)
+toei-gtfs.zip
