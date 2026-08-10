@@ -361,3 +361,61 @@ body {
   color: #888888;
   text-align: center;
 }
+
+/* 表示設定パネル（地図左上オーバーレイ・運休トグルの下） */
+.display-panel {
+  position: absolute;
+  top: 54px;
+  left: 12px;
+  z-index: 1;
+}
+.display-panel-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.display-panel-button:hover {
+  background: #ffffff;
+}
+.display-panel-content {
+  margin-top: 6px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.display-panel-label {
+  margin: 4px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666666;
+}
+.display-panel-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.display-panel-chip {
+  padding: 4px 10px;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #666666;
+  font-size: 12px;
+  cursor: pointer;
+}
+.display-panel-chip:hover {
+  border-color: #999999;
+}
+.display-panel-chip.active {
+  background: #1a1a1a;
+  color: #ffffff;
+  border-color: #1a1a1a;
+}
