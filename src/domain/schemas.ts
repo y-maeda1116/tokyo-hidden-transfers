@@ -15,6 +15,13 @@ export const StationSchema = z.object({
 })
 
 /**
+ * 路線の事業者カテゴリ（表示制御パネルのグループ選択用）。
+ * jr: JR / metro: 東京メトロ / toei: 都営交通 / private: 私鉄 / other: 第三セクター等
+ */
+export const LineCategorySchema = z.enum(['jr', 'metro', 'toei', 'private', 'other'])
+export type LineCategory = z.infer<typeof LineCategorySchema>
+
+/**
  * 路線: 駅を順に結ぶ折れ線（LineString）。
  * LineString の要件（2点以上）を保証するため stations は2駅以上必須。
  * color は #RRGGBB 6桁のみ許可。
@@ -27,6 +34,7 @@ export const LineSchema = z.object({
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   stations: z.array(StationSchema).min(2),
   mode: z.enum(['rail', 'bus', 'tram']).optional(),
+  category: LineCategorySchema.optional(),
   // 環状路線（山手線など）。true のとき LineString の始点を末尾に追加して線を閉じる。
   closed: z.boolean().optional(),
 })

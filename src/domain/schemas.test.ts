@@ -83,6 +83,22 @@ describe('LineSchema', () => {
   it('無効な mode を拒否する', () => {
     expect(() => LineSchema.parse({ ...baseLine, mode: 'ferry' })).toThrow()
   })
+
+  it('category に jr/metro/toei/private/other を受理する', () => {
+    expect(LineSchema.parse({ ...baseLine, category: 'jr' }).category).toBe('jr')
+    expect(LineSchema.parse({ ...baseLine, category: 'metro' }).category).toBe('metro')
+    expect(LineSchema.parse({ ...baseLine, category: 'toei' }).category).toBe('toei')
+    expect(LineSchema.parse({ ...baseLine, category: 'private' }).category).toBe('private')
+    expect(LineSchema.parse({ ...baseLine, category: 'other' }).category).toBe('other')
+  })
+
+  it('無効な category を拒否する', () => {
+    expect(() => LineSchema.parse({ ...baseLine, category: 'shinkansen' })).toThrow()
+  })
+
+  it('category を省略できる（Task 2 で必須化するまで）', () => {
+    expect(LineSchema.parse(baseLine).category).toBeUndefined()
+  })
 })
 
 describe('TransferSchema', () => {
