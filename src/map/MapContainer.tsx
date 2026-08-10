@@ -3,13 +3,15 @@ import type { FeatureCollection } from 'geojson'
 import { Popup } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Line, Station, Transfer } from '../domain/types.ts'
+import type { DisplayState } from '../domain/displayVisibility.ts'
 import {
   buildLinesCollection,
   buildStationsCollection,
   buildTransfersCollection,
 } from '../geojson/builders.ts'
 import { addDataLayers } from './addDataLayers.ts'
-import { buildHiddenLineFilter } from './filters.ts'
+import { buildLineFilter } from './filters.ts'
+import { isLayerVisible } from '../domain/displayVisibility.ts'
 import {
   LAYER_IDS,
   linesPaint,
@@ -24,9 +26,8 @@ interface Props {
   lines: readonly Line[]
   transfers: readonly Transfer[]
   stationsById: ReadonlyMap<string, Station>
-  hiddenLineIds: ReadonlySet<string>
+  displayState: DisplayState
   suspensionMode: boolean
-  busVisible: boolean
   focusTarget: { stationId: string } | null
   onFocusConsumed: () => void
 }
@@ -39,16 +40,19 @@ export function MapContainer({
   lines,
   transfers,
   stationsById,
-  hiddenLineIds,
+  displayState,
   suspensionMode,
-  busVisible,
   focusTarget,
   onFocusConsumed,
 }: Props) {
   const { containerRef, mapRef, ready } = useMapInstance()
   const popupRef = useRef<Popup | null>(null)
 
-  useBusLayers({ map: mapRef.current, ready, busVisible })
+  useBusLayers({
+    map: mapRef.current,
+    ready,
+    busVisible: isLayerVisible('bus', displayState),
+  })
 
   const geojson = useMemo<{
     lines: FeatureCollection
@@ -81,7 +85,7 @@ export function MapContainer({
     setupHoverPopups(map, { stationsById, transfersById, lineNameById })
   }, [ready, mapRef, geojson, stationsById, transfersById, lineNameById])
 
-  // 非表示路線のフィルタ適用。addDataLayers の effect が先行して layer を追加するため、
+  // 非表示路線/カテゴリのフィルタ適用。addDataLayers の effect が先行して layer を追加するため、
   // 防御的に layer 存在を確認してから setFilter する。
   useEffect(() => {
     if (!ready) return
@@ -90,12 +94,34 @@ export function MapContainer({
     if (!map.getLayer(LAYER_IDS.lines) || !map.getLayer(LAYER_IDS.stations)) {
       return
     }
-    map.setFilter(LAYER_IDS.lines, buildHiddenLineFilter(hiddenLineIds, 'id'))
+    map.setFilter(
+      LAYER_IDS.lines,
+      buildLineFilter(displayState.hiddenLineIds, displayState.categoryHidden, 'id'),
+    )
     map.setFilter(
       LAYER_IDS.stations,
-      buildHiddenLineFilter(hiddenLineIds, 'lineId'),
+      buildLineFilter(displayState.hiddenLineIds, displayState.categoryHidden, 'lineId'),
     )
-  }, [ready, hiddenLineIds, mapRef])
+  }, [ready, displayState, mapRef])
+
+  // 駅・振替レイヤーの表示切替（表示設定パネルの要素ON/OFF）。
+  useEffect(() => {
+    if (!ready) return
+    const map = mapRef.current
+    if (!map) return
+    const stationVisibility = isLayerVisible('stations', displayState)
+      ? 'visible'
+      : 'none'
+    const transferVisibility = isLayerVisible('transfers', displayState)
+      ? 'visible'
+      : 'none'
+    if (map.getLayer(LAYER_IDS.stations)) {
+      map.setLayoutProperty(LAYER_IDS.stations, 'visibility', stationVisibility)
+    }
+    if (map.getLayer(LAYER_IDS.transfers)) {
+      map.setLayoutProperty(LAYER_IDS.transfers, 'visibility', transferVisibility)
+    }
+  }, [ready, displayState, mapRef])
 
   // 山手線運休モードの表示切替。lines/transfers の paint を suspensionMode で再適用。
   useEffect(() => {
