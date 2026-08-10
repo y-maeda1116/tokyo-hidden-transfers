@@ -6,6 +6,7 @@ export const toyokoLine: Line = {
   id: 'toyoko',
   name: '東急東横線',
   color: '#fad000',
+  category: 'private',
   stations: [
     { id: 'ty01', name: '渋谷', lineId: 'toyoko', lon: 139.7016, lat: 35.6585 },
     { id: 'ty02', name: '代官山', lineId: 'toyoko', lon: 139.7030, lat: 35.6510 },

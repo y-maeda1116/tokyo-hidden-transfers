@@ -27,6 +27,7 @@ const line: Line = {
   id: 'l1',
   name: '路線1',
   color: '#e60012',
+  category: 'jr',
   stations: [stationA, stationB],
 }
 

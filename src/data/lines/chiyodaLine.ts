@@ -9,6 +9,7 @@ export const chiyodaLine: Line = {
   id: 'chiyoda',
   name: '東京メトロ千代田線',
   color: '#00bb85',
+  category: 'metro',
   stations: [
     { id: 'c01', name: '代々木上原', lineId: 'chiyoda', lon: 139.6797884, lat: 35.6690082 },
     { id: 'c02', name: '代々木公園', lineId: 'chiyoda', lon: 139.6901201, lat: 35.6690693 },

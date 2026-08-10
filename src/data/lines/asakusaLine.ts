@@ -8,6 +8,7 @@ export const asakusaLine: Line = {
   id: 'asakusa',
   name: '都営浅草線',
   color: '#e8472e',
+  category: 'toei',
   stations: [
     { id: 'nishimagome-asakusa', name: '西馬込', lineId: 'asakusa', lon: 139.706189, lat: 35.587437 },
     { id: 'magome-asakusa', name: '馬込', lineId: 'asakusa', lon: 139.711861, lat: 35.596593 },

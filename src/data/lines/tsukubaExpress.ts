@@ -5,6 +5,7 @@ export const tsukubaExpress: Line = {
   id: 'tsukuba-express',
   name: 'つくばエクスプレス',
   color: '#005bac',
+  category: 'other',
   stations: [
     { id: 'asakusa-tx', name: '浅草', lineId: 'tsukuba-express', lon: 139.792333, lat: 35.713222 },
     { id: 'kitasenju', name: '北千住', lineId: 'tsukuba-express', lon: 139.8030, lat: 35.7440 },

@@ -8,6 +8,7 @@ export const todenArakawaLine: Line = {
   id: 'toden-arakawa',
   name: '都電荒川線',
   color: '#86b853',
+  category: 'toei',
   mode: 'tram',
   stations: [
     { id: 'sa01', name: '早稲田', lineId: 'toden-arakawa', lon: 139.7170, lat: 35.7085, mode: 'tram' },

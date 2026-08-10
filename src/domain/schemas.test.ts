@@ -52,6 +52,7 @@ describe('LineSchema', () => {
     id: 'asakusa',
     name: '都営浅草線',
     color: '#e60012',
+    category: 'toei',
     stations: [
       { ...validStation },
       { ...validStation, id: 's2', name: '駅2' },
@@ -96,8 +97,10 @@ describe('LineSchema', () => {
     expect(() => LineSchema.parse({ ...baseLine, category: 'shinkansen' })).toThrow()
   })
 
-  it('category を省略できる（Task 2 で必須化するまで）', () => {
-    expect(LineSchema.parse(baseLine).category).toBeUndefined()
+  it('category 省略を拒否する（必須）', () => {
+    const { category, ...withoutCategory } = { ...baseLine, category: 'jr' }
+    void category
+    expect(() => LineSchema.parse(withoutCategory)).toThrow()
   })
 })
 

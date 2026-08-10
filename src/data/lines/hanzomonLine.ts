@@ -7,6 +7,7 @@ export const hanzomonLine: Line = {
   id: 'hanzomon',
   name: '東京メトロ半蔵門線',
   color: '#8f76d6',
+  category: 'metro',
   stations: [
     { id: 'z01', name: '渋谷', lineId: 'hanzomon', lon: 139.7020805, lat: 35.6595562 },
     { id: 'z02', name: '表参道', lineId: 'hanzomon', lon: 139.7122804, lat: 35.6651381 },

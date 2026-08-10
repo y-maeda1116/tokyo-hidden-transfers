@@ -7,6 +7,7 @@ export const odakyuLine: Line = {
   id: 'odakyu',
   name: '小田急小田原線',
   color: '#0094d8',
+  category: 'private',
   stations: [
     { id: 'oh01', name: '新宿', lineId: 'odakyu', lon: 139.6595, lat: 35.6900 },
     { id: 'oh02', name: '南新宿', lineId: 'odakyu', lon: 139.6550, lat: 35.6820 },

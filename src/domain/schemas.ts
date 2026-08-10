@@ -34,7 +34,7 @@ export const LineSchema = z.object({
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   stations: z.array(StationSchema).min(2),
   mode: z.enum(['rail', 'bus', 'tram']).optional(),
-  category: LineCategorySchema.optional(),
+  category: LineCategorySchema,
   // 環状路線（山手線など）。true のとき LineString の始点を末尾に追加して線を閉じる。
   closed: z.boolean().optional(),
 })

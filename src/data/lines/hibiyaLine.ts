@@ -8,6 +8,7 @@ export const hibiyaLine: Line = {
   id: 'hibiya',
   name: '東京メトロ日比谷線',
   color: '#b5b5ac',
+  category: 'metro',
   stations: [
     { id: 'h01', name: '中目黒', lineId: 'hibiya', lon: 139.6987513, lat: 35.6440969 },
     { id: 'h02', name: '恵比寿', lineId: 'hibiya', lon: 139.7086263, lat: 35.6469875 },

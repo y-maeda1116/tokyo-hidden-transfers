@@ -10,6 +10,7 @@ export const nambokuLine: Line = {
   id: 'namboku',
   name: '東京メトロ南北線',
   color: '#00ac9b',
+  category: 'metro',
   stations: [
     { id: 'n01', name: '目黒', lineId: 'namboku', lon: 139.715833, lat: 35.634028 },
     { id: 'n02', name: '白金台', lineId: 'namboku', lon: 139.7265558, lat: 35.6381169 },

@@ -9,6 +9,7 @@ export const marunouchiLine: Line = {
   id: 'marunouchi',
   name: '東京メトロ丸ノ内線',
   color: '#f62e36',
+  category: 'metro',
   stations: [
     { id: 'm01', name: '荻窪', lineId: 'marunouchi', lon: 139.6199943, lat: 35.7043191 },
     { id: 'm02', name: '南阿佐ケ谷', lineId: 'marunouchi', lon: 139.6357198, lat: 35.6994156 },
