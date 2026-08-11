@@ -8,6 +8,7 @@ export const keiseiLine: Line = {
   color: '#c9103b',
   category: 'private',
   stations: [
+    { id: 'ks00', name: '京成上野', lineId: 'keisei', lon: 139.7792, lat: 35.7065 },
     { id: 'ks01', name: '日暮里', lineId: 'keisei', lon: 139.7713, lat: 35.7282 },
     { id: 'ks02', name: '新三河島', lineId: 'keisei', lon: 139.7735, lat: 35.7375 },
     { id: 'ks03', name: '町屋', lineId: 'keisei', lon: 139.7785, lat: 35.7445 },
