@@ -7,6 +7,7 @@ export const ginzaLine: Line = {
   id: 'ginza',
   name: '東京メトロ銀座線',
   color: '#ff9500',
+  category: 'metro',
   stations: [
     { id: 'g01', name: '渋谷', lineId: 'ginza', lon: 139.7024251, lat: 35.6590617 },
     { id: 'g02', name: '表参道', lineId: 'ginza', lon: 139.7124195, lat: 35.6650556 },

@@ -7,6 +7,7 @@ export const yurakuchoLine: Line = {
   id: 'yurakucho',
   name: '東京メトロ有楽町線',
   color: '#c1a470',
+  category: 'metro',
   stations: [
     { id: 'y01', name: '和光市', lineId: 'yurakucho', lon: 139.6128678, lat: 35.7883529 },
     { id: 'y02', name: '地下鉄成増', lineId: 'yurakucho', lon: 139.6313339, lat: 35.776704 },

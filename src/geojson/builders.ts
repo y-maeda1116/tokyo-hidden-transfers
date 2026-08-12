@@ -1,9 +1,14 @@
 import type { Feature, FeatureCollection } from 'geojson'
 import type { Line, Station, Transfer } from '../domain/types.ts'
+import type { LineCategory } from '../domain/schemas.ts'
 import { FeatureCollectionSchema } from '../domain/geojsonSchema.ts'
 
 /** 駅を GeoJSON の Point Feature に変換する（座標は [lon, lat] 順）。 */
-export function buildStationPoint(station: Station, color: string): Feature {
+export function buildStationPoint(
+  station: Station,
+  color: string,
+  category: LineCategory,
+): Feature {
   return {
     type: 'Feature',
     geometry: { type: 'Point', coordinates: [station.lon, station.lat] },
@@ -14,6 +19,7 @@ export function buildStationPoint(station: Station, color: string): Feature {
       lineId: station.lineId,
       color,
       mode: station.mode,
+      category,
     },
   }
 }
@@ -32,6 +38,7 @@ export function buildLineFeature(line: Line): Feature {
       name: line.name,
       color: line.color,
       mode: line.mode,
+      category: line.category,
     },
   }
 }
@@ -90,7 +97,9 @@ export function buildStationsCollection(
   lines: readonly Line[],
 ): FeatureCollection {
   const features = lines.flatMap((line) =>
-    line.stations.map((station) => buildStationPoint(station, line.color)),
+    line.stations.map((station) =>
+      buildStationPoint(station, line.color, line.category),
+    ),
   )
   return toCollection(features)
 }

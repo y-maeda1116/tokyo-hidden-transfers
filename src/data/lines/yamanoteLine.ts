@@ -7,6 +7,7 @@ export const yamanoteLine: Line = {
   id: 'yamanote',
   name: 'JR山手線',
   color: '#9acd32',
+  category: 'jr',
   closed: true, // 環状運転: 品川(JY30)→大崎(JY01) へ戻り線を描画して環を閉じる
   stations: [
     { id: 'jy01', name: '大崎', lineId: 'yamanote', lon: 139.7285, lat: 35.6197 },

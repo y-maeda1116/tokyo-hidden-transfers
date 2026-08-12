@@ -8,6 +8,7 @@ export const mitaLine: Line = {
   id: 'mita',
   name: '都営三田線',
   color: '#0078ba',
+  category: 'toei',
   stations: [
     { id: 'm01', name: '目黒', lineId: 'mita', lon: 139.715833, lat: 35.634028 },
     { id: 'm02', name: '白金台', lineId: 'mita', lon: 139.724986, lat: 35.638458 },

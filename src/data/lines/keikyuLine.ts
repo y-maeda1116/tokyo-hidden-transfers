@@ -6,6 +6,7 @@ export const keikyuLine: Line = {
   id: 'keikyu',
   name: '京急本線',
   color: '#e60012',
+  category: 'private',
   stations: [
     { id: 'kk01', name: '泉岳寺', lineId: 'keikyu', lon: 139.7395, lat: 35.6378 },
     { id: 'kk02', name: '品川', lineId: 'keikyu', lon: 139.7400, lat: 35.6286 },

@@ -6,6 +6,7 @@ export const nipporiToneriLinerLine: Line = {
   id: 'nippori-toneri-liner',
   name: '日暮里・舎人ライナー',
   color: '#9b6fab',
+  category: 'toei',
   stations: [
     { id: 'nt01', name: '日暮里', lineId: 'nippori-toneri-liner', lon: 139.7713, lat: 35.7282 },
     { id: 'nt02', name: '西日暮里', lineId: 'nippori-toneri-liner', lon: 139.7664, lat: 35.7320 },

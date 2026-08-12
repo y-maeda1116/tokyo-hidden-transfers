@@ -7,6 +7,7 @@ export const tozaiLine: Line = {
   id: 'tozai',
   name: '東京メトロ東西線',
   color: '#009bbf',
+  category: 'metro',
   stations: [
     { id: 't01', name: '中野', lineId: 'tozai', lon: 139.6655367, lat: 35.7058135 },
     { id: 't02', name: '落合', lineId: 'tozai', lon: 139.6859125, lat: 35.7106884 },

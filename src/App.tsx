@@ -4,9 +4,11 @@ import { buildTransferList } from './data/transferList.ts'
 import { MapContainer } from './map/MapContainer.tsx'
 import { Header } from './ui/Header.tsx'
 import { Legend } from './ui/Legend.tsx'
-import { BusToggle } from './ui/BusToggle.tsx'
+import { DisplayPanel } from './ui/DisplayPanel.tsx'
 import { SuspensionToggle } from './ui/SuspensionToggle.tsx'
 import { TransferListView } from './ui/TransferListView.tsx'
+import { useDisplayState } from './map/useDisplayState.ts'
+import { isLayerVisible } from './domain/displayVisibility.ts'
 
 type Tab = 'map' | 'list'
 
@@ -16,14 +18,10 @@ interface FocusTarget {
 
 export function App() {
   const [tab, setTab] = useState<Tab>('map')
-  // 地図タブの路線表示ON/OFF（非表示にした路線IDの集合）。新しい Set でイミュータブル更新。
-  const [hiddenLineIds, setHiddenLineIds] = useState<ReadonlySet<string>>(
-    () => new Set(),
-  )
-  // 山手線運休モード（山手線を薄くし、振替ルートを強調）
+  // 表示ON/OFFの状態（カテゴリ/路線個別/地図要素）。Reducer で一元管理。
+  const display = useDisplayState()
+  // 山手線運休モード（山手線を薄くし、振替ルートを強調）。表示ON/OFFとは独立。
   const [suspensionMode, setSuspensionMode] = useState(false)
-  // 都バス全系統の表示ON/OFF（デフォルトON）。minzoom 制御で広域時は描画されないため初期ロード影響は限定的。
-  const [busVisible, setBusVisible] = useState(true)
   // リスト→地図へのジャンプ対象。消費後 null に戻し再ジャンプを可能にする。
   const [focusTarget, setFocusTarget] = useState<FocusTarget | null>(null)
 
@@ -32,19 +30,6 @@ export function App() {
     () => buildTransferList(lines, allTransfers, stationsById),
     [],
   )
-
-  // 路線の表示/非表示をトグル（prev を破壊せず新しい Set を生成）
-  const toggleLine = (lineId: string): void => {
-    setHiddenLineIds((prev) => {
-      const next = new Set(prev)
-      if (next.has(lineId)) {
-        next.delete(lineId)
-      } else {
-        next.add(lineId)
-      }
-      return next
-    })
-  }
 
   // リスト→地図へのジャンプ。タブを地図に切り替え、フォーカス対象を設定。
   const handleSelectStation = useCallback((stationId: string): void => {
@@ -83,9 +68,8 @@ export function App() {
               lines={lines}
               transfers={allTransfers}
               stationsById={stationsById}
-              hiddenLineIds={hiddenLineIds}
+              displayState={display.state}
               suspensionMode={suspensionMode}
-              busVisible={busVisible}
               focusTarget={focusTarget}
               onFocusConsumed={handleFocusConsumed}
             />
@@ -93,15 +77,16 @@ export function App() {
               active={suspensionMode}
               onToggle={() => setSuspensionMode((prev) => !prev)}
             />
-            <BusToggle
-              active={busVisible}
-              onToggle={() => setBusVisible((prev) => !prev)}
+            <DisplayPanel
+              state={display.state}
+              onToggleCategory={display.toggleCategory}
+              onToggleLayer={display.toggleLayer}
             />
             <Legend
               lines={lines}
-              hiddenLineIds={hiddenLineIds}
-              onToggleLine={toggleLine}
-              busVisible={busVisible}
+              hiddenLineIds={display.state.hiddenLineIds}
+              onToggleLine={display.toggleLine}
+              busVisible={isLayerVisible('bus', display.state)}
             />
           </>
         ) : (

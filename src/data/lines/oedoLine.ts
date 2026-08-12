@@ -8,6 +8,7 @@ export const oedoLine: Line = {
   id: 'oedo',
   name: '都営大江戸線',
   color: '#b6007a',
+  category: 'toei',
   stations: [
     { id: 'e01', name: '新宿西口', lineId: 'oedo', lon: 139.699139, lat: 35.693306 },
     { id: 'e02', name: '東新宿', lineId: 'oedo', lon: 139.708311, lat: 35.695056 },

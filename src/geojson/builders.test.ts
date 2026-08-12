@@ -27,12 +27,13 @@ const line: Line = {
   id: 'l1',
   name: '路線1',
   color: '#e60012',
+  category: 'jr',
   stations: [stationA, stationB],
 }
 
 describe('buildStationPoint', () => {
   it('Point Feature を生成し lon/lat 順の座標を持つ', () => {
-    const f = buildStationPoint(stationA, '#e60012')
+    const f = buildStationPoint(stationA, '#e60012', 'jr')
     expect(f.geometry.type).toBe('Point')
     if (f.geometry.type === 'Point') {
       expect(f.geometry.coordinates).toEqual([139.7, 35.7])
@@ -40,7 +41,7 @@ describe('buildStationPoint', () => {
   })
 
   it('properties に駅情報と路線色を保持する', () => {
-    const f = buildStationPoint(stationA, '#e60012')
+    const f = buildStationPoint(stationA, '#e60012', 'jr')
     expect(f.properties).toMatchObject({
       id: 'a',
       name: 'A駅',
@@ -51,9 +52,15 @@ describe('buildStationPoint', () => {
 
   it('mode を properties に保持する', () => {
     const busStop: Station = { ...stationA, mode: 'bus' }
-    expect(buildStationPoint(busStop, '#e60012').properties).toMatchObject({
+    expect(buildStationPoint(busStop, '#e60012', 'jr').properties).toMatchObject({
       mode: 'bus',
     })
+  })
+
+  it('category を properties に保持する', () => {
+    expect(
+      buildStationPoint(stationA, '#e60012', 'toei').properties,
+    ).toMatchObject({ category: 'toei' })
   })
 })
 
@@ -97,6 +104,11 @@ describe('buildLineFeature', () => {
   it('mode を properties に保持する', () => {
     const busLine: Line = { ...line, mode: 'bus' }
     expect(buildLineFeature(busLine).properties).toMatchObject({ mode: 'bus' })
+  })
+
+  it('category を properties に保持する', () => {
+    const metroLine: Line = { ...line, category: 'metro' }
+    expect(buildLineFeature(metroLine).properties).toMatchObject({ category: 'metro' })
   })
 })
 

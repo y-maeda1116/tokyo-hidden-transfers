@@ -7,6 +7,7 @@ export const shinjukuLine: Line = {
   id: 'shinjuku',
   name: '都営新宿線',
   color: '#b5b5ac',
+  category: 'toei',
   stations: [
     { id: 's01', name: '新宿', lineId: 'shinjuku', lon: 139.6885, lat: 35.67625 },
     { id: 's02', name: '新宿三丁目', lineId: 'shinjuku', lon: 139.704194, lat: 35.681167 },

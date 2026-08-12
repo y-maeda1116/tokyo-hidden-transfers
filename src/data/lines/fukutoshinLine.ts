@@ -9,6 +9,7 @@ export const fukutoshinLine: Line = {
   id: 'fukutoshin',
   name: '東京メトロ副都心線',
   color: '#9c5e31',
+  category: 'metro',
   stations: [
     { id: 'f01', name: '和光市', lineId: 'fukutoshin', lon: 139.6128678, lat: 35.7883529 },
     { id: 'f02', name: '地下鉄成増', lineId: 'fukutoshin', lon: 139.6313339, lat: 35.776704 },

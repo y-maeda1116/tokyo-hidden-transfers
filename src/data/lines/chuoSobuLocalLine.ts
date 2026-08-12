@@ -7,6 +7,7 @@ export const chuoSobuLocalLine: Line = {
   id: 'chuo-sobu-local',
   name: 'JR中央・総武線各駅停車',
   color: '#fdb713',
+  category: 'jr',
   stations: [
     { id: 'jb01', name: '中野', lineId: 'chuo-sobu-local', lon: 139.6660, lat: 35.7080 },
     { id: 'jb02', name: '東中野', lineId: 'chuo-sobu-local', lon: 139.6830, lat: 35.7070 },

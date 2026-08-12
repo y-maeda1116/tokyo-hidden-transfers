@@ -52,6 +52,7 @@ describe('LineSchema', () => {
     id: 'asakusa',
     name: '都営浅草線',
     color: '#e60012',
+    category: 'toei',
     stations: [
       { ...validStation },
       { ...validStation, id: 's2', name: '駅2' },
@@ -82,6 +83,24 @@ describe('LineSchema', () => {
 
   it('無効な mode を拒否する', () => {
     expect(() => LineSchema.parse({ ...baseLine, mode: 'ferry' })).toThrow()
+  })
+
+  it('category に jr/metro/toei/private/other を受理する', () => {
+    expect(LineSchema.parse({ ...baseLine, category: 'jr' }).category).toBe('jr')
+    expect(LineSchema.parse({ ...baseLine, category: 'metro' }).category).toBe('metro')
+    expect(LineSchema.parse({ ...baseLine, category: 'toei' }).category).toBe('toei')
+    expect(LineSchema.parse({ ...baseLine, category: 'private' }).category).toBe('private')
+    expect(LineSchema.parse({ ...baseLine, category: 'other' }).category).toBe('other')
+  })
+
+  it('無効な category を拒否する', () => {
+    expect(() => LineSchema.parse({ ...baseLine, category: 'shinkansen' })).toThrow()
+  })
+
+  it('category 省略を拒否する（必須）', () => {
+    const { category, ...withoutCategory } = { ...baseLine, category: 'jr' }
+    void category
+    expect(() => LineSchema.parse(withoutCategory)).toThrow()
   })
 })
 

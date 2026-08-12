@@ -7,6 +7,7 @@ export const seibuShinjukuLine: Line = {
   id: 'seibu-shinjuku',
   name: '西武新宿線',
   color: '#d6a419',
+  category: 'private',
   stations: [
     { id: 'ss01', name: '西武新宿', lineId: 'seibu-shinjuku', lon: 139.7015, lat: 35.6945 },
     { id: 'ss02', name: '高田馬場', lineId: 'seibu-shinjuku', lon: 139.7038, lat: 35.7124 },

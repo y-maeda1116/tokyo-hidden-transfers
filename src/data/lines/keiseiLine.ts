@@ -6,6 +6,7 @@ export const keiseiLine: Line = {
   id: 'keisei',
   name: '京成本線',
   color: '#c9103b',
+  category: 'private',
   stations: [
     { id: 'ks01', name: '日暮里', lineId: 'keisei', lon: 139.7713, lat: 35.7282 },
     { id: 'ks02', name: '新三河島', lineId: 'keisei', lon: 139.7735, lat: 35.7375 },

@@ -23,6 +23,13 @@ describe('lines（路線データ）', () => {
       expect(line.color).toMatch(/^#[0-9a-fA-F]{6}$/)
     }
   })
+
+  it('全路線に category（jr/metro/toei/private/other）が設定されている', () => {
+    const valid = ['jr', 'metro', 'toei', 'private', 'other'] as const
+    for (const line of lines) {
+      expect(valid).toContain(line.category)
+    }
+  })
 })
 
 describe('allTransfers（非公式乗換データ）', () => {
