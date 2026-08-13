@@ -15,7 +15,8 @@
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "build:bus": "tsx scripts/build-bus-geojson.ts"
+    "build:bus": "tsx scripts/build-bus-geojson.ts",
+    "build:rail-coords": "tsx scripts/build-rail-coords.ts"
   },
   "dependencies": {
     "maplibre-gl": "^6.1.0",

@@ -50,6 +50,7 @@ export function Legend({ lines, hiddenLineIds, onToggleLine, busVisible }: Props
       <p className="legend-source">
         バスデータ: 公共交通オープンデータセンター（都営バス GTFS-JP）
       </p>
+      <p className="legend-source">鉄道駅座標: © OpenStreetMap contributors</p>
     </aside>
   )
 }

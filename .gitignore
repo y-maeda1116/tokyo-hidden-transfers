@@ -34,3 +34,6 @@ Thumbs.db
 
 # Build inputs (GTFS source zip — not committed; regenerated via build:bus)
 toei-gtfs.zip
+
+# Build outputs (rail-coords ドライラン差分 — not committed; regenerated via build:rail-coords)
+scripts/rail-coords/.cache/
