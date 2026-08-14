@@ -19,7 +19,7 @@ export const odakyuLine: Line = {
     { id: 'oh04', name: '代々木八幡', lineId: 'odakyu', lon: 139.6888398, lat: 35.6696211 },
     { id: 'oh05', name: '代々木上原', lineId: 'odakyu', lon: 139.6797884, lat: 35.6690082 },
     { id: 'oh06', name: '東北沢', lineId: 'odakyu', lon: 139.6724982, lat: 35.6651291 },
-    { id: 'oh07', name: '和泉多摩川', lineId: 'odakyu', lon: 139.5737269, lat: 35.6275123 },
-    { id: 'oh08', name: '狛江', lineId: 'odakyu', lon: 139.5774238, lat: 35.632315 },
+    { id: 'oh07', name: '狛江', lineId: 'odakyu', lon: 139.5774238, lat: 35.632315 },
+    { id: 'oh08', name: '和泉多摩川', lineId: 'odakyu', lon: 139.5737269, lat: 35.6275123 },
   ],
 }

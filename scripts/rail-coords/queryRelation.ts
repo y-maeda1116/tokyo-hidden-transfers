@@ -49,13 +49,14 @@ export function buildStopWaysQuery(relationIds: readonly number[], bbox?: Bbox):
 /**
  * 駅名で railway=station ノードを検索する Overpass QL（純粋関数）。
  * route relation の role=stop に欠落する駅の最終フォールバック用。
+ * bbox を渡すとその範囲に絞る（県境切り取り路線で同名校の都外引力を防ぐ）。
  */
-export function buildStationByNameQuery(name: string): string {
+export function buildStationByNameQuery(name: string, bbox?: Bbox): string {
   const escaped = escapeOverpassString(name)
   return [
     '[out:json][timeout:60];',
     // 前方一致で「○○駅」/「○○」等の表記ゆれを広く拾い、厳密なマッチングは normalizeName に委ねる。
-    `node["name"~"^${escaped}"]["railway"="station"];`,
+    `node["name"~"^${escaped}"]["railway"="station"]${formatBbox(bbox)};`,
     'out body;',
     '',
   ].join('\n')

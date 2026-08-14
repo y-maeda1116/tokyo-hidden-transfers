@@ -56,6 +56,12 @@ describe('buildStationByNameQuery', () => {
     expect(q).toContain('a\\"b\\\\c')
     expect(q).not.toMatch(/name~"\^a"b/)
   })
+
+  it('bbox を渡すと取得範囲を (south,west,north,east) で絞る', () => {
+    const q = buildStationByNameQuery('新田', { south: 35.5, west: 139.4, north: 35.9, east: 139.95 })
+    expect(q).toContain('["name"~"^新田"]')
+    expect(q).toContain('(35.5,139.4,35.9,139.95)')
+  })
 })
 
 describe('buildLineSearchQuery', () => {

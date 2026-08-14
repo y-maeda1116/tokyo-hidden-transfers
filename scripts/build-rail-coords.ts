@@ -117,7 +117,8 @@ async function processLine(line: Line, config: LineRelationConfig): Promise<Matc
   if (unmatched.length > 0) {
     const fallbackCandidates: OsmStopCandidate[] = []
     for (const station of unmatched) {
-      const fbResp = await queryOverpass(buildStationByNameQuery(station.name))
+      // config.bbox で都内に絞り、同名校（例: 新田）の都外引力を防ぐ
+      const fbResp = await queryOverpass(buildStationByNameQuery(station.name, config.bbox))
       fallbackCandidates.push(...extractStopCandidates(fbResp, 'station-fallback'))
     }
     if (fallbackCandidates.length > 0) {

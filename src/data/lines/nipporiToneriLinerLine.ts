@@ -17,7 +17,7 @@ export const nipporiToneriLinerLine: Line = {
     { id: 'nt05', name: '足立小台', lineId: 'nippori-toneri-liner', lon: 139.7703354, lat: 35.7546723 },
     { id: 'nt06', name: '扇大橋', lineId: 'nippori-toneri-liner', lon: 139.77078, lat: 35.7639817 },
     { id: 'nt07', name: '高野', lineId: 'nippori-toneri-liner', lon: 139.7706489, lat: 35.7684884 },
-    { id: 'nt08', name: '江戸川', lineId: 'nippori-toneri-liner', lon: 139.8958777, lat: 35.7377552 },
+    { id: 'nt08', name: '江北', lineId: 'nippori-toneri-liner', lon: 139.7702593, lat: 35.7739596 },
     { id: 'nt09', name: '西新井大師西', lineId: 'nippori-toneri-liner', lon: 139.7700397, lat: 35.7815513 },
     { id: 'nt10', name: '谷在家', lineId: 'nippori-toneri-liner', lon: 139.7700116, lat: 35.7887166 },
     { id: 'nt11', name: '舎人公園', lineId: 'nippori-toneri-liner', lon: 139.7700819, lat: 35.7963752 },
