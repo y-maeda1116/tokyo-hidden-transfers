@@ -1,6 +1,7 @@
 // scripts/rail-coords/queryRelation.test.ts
 import { describe, expect, it } from 'vitest'
 import {
+  buildLineSearchQuery,
   buildStationByNameQuery,
   buildStopNodesQuery,
   buildStopWaysQuery,
@@ -44,17 +45,31 @@ describe('buildStopWaysQuery', () => {
 })
 
 describe('buildStationByNameQuery', () => {
-  it('railway=station ノードを日本語駅名で検索する', () => {
+  it('railway=station ノードを駅名の前方一致で検索する', () => {
     const q = buildStationByNameQuery('御茶ノ水')
-    expect(q).toContain('["name"="御茶ノ水"]')
+    expect(q).toContain('["name"~"^御茶ノ水"]')
     expect(q).toContain('["railway"="station"]')
   })
 
   it('ダブルクォートとバックスラッシュをエスケープする', () => {
     const q = buildStationByNameQuery('a"b\\c')
-    // 生成文字列中では \" と \\ にエスケープされていること
     expect(q).toContain('a\\"b\\\\c')
-    // エスケープされていない生の "a"b（崩れた区切り）が存在しないこと
-    expect(q).not.toMatch(/name"="a"b/)
+    expect(q).not.toMatch(/name~"\^a"b/)
+  })
+})
+
+describe('buildLineSearchQuery', () => {
+  it('複数路線名を正規表現の OR で結び route relation を検索する', () => {
+    const q = buildLineSearchQuery(['都営浅草線', '京急本線'])
+    expect(q).toContain('[out:json][timeout:180]')
+    expect(q).toContain('["type"="route"]')
+    expect(q).toContain('["route"~"subway|train|tram|light_rail|monorail"]')
+    expect(q).toContain('[~"name"~"(都営浅草線|京急本線)"]')
+    expect(q).toContain('out tags')
+  })
+
+  it('単一路線名でも OR グループで囲む', () => {
+    const q = buildLineSearchQuery(['東武東上線'])
+    expect(q).toContain('[~"name"~"(東武東上線)"]')
   })
 })

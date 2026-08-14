@@ -103,7 +103,7 @@ npm run test:coverage # カバレッジ付きテスト実行（論理層 80% 以
 
 ### 鉄道駅座標の基準
 
-全路線の駅座標は [OpenStreetMap](https://www.openstreetmap.org/copyright) の route relation の role=stop（停車位置）を基準とします（© OpenStreetMap contributors, ODbL）。route relation に欠落する駅は `railway=station` ノードで補完します。各路線ファイル（`src/data/lines/*.ts`）の冒頭に relation id を明記しています。
+全路線の駅座標は [OpenStreetMap](https://www.openstreetmap.org/copyright) の route relation の role=stop（停車位置）を基準とします（© OpenStreetMap contributors, ODbL）。route relation に欠落する駅は `railway=station` ノードで補完します。各路線ファイル（`src/data/lines/*.ts`）の冒頭に relation id を明記しています。※都電荒川線は路線データ自体の再構築が必要なため本基準の適用は別課題。
 
 座標の再取得・正確化は `npm run build:rail-coords`（[Overpass API](https://overpass-api.de/) 経由）。既定は差分ドライラン、`--write` で路線ファイルに反映します。
 

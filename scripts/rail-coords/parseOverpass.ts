@@ -4,6 +4,7 @@ import type { CoordSource, OsmStopCandidate } from './types.ts'
 /** Overpass API の要素（node/way）。本スクリプトが使うフィールドのみ。 */
 export interface OverpassElement {
   readonly type: 'node' | 'way' | 'relation'
+  readonly id: number
   readonly lat?: number
   readonly lon?: number
   /** way を `out center` で取得した場合の代表点。 */

@@ -14,8 +14,20 @@ describe('normalizeName', () => {
   })
 
   it('空白（全角含む）を削除する', () => {
-    expect(normalizeName('東京　駅')).toBe('東京駅')
-    expect(normalizeName('東京 駅')).toBe('東京駅')
+    expect(normalizeName('東京　大学')).toBe('東京大学')
+    expect(normalizeName('東京 大学')).toBe('東京大学')
+  })
+
+  it('末尾の「駅」を削除する（OSM の「○○駅」と当プロジェクトの「○○」を吸収）', () => {
+    expect(normalizeName('新宿駅')).toBe('新宿')
+    expect(normalizeName('東京駅')).toBe('東京')
+    expect(normalizeName('品川')).toBe('品川')
+  })
+
+  it('とうきょう を 東京 に集約する（OSM の東武サイン表記と漢字表記の吸収）', () => {
+    // ー も長音削除で落ちるためスカイツリー→スカイツリ になるが、両辺へ対称適用でマッチは一貫
+    expect(normalizeName('とうきょうスカイツリー')).toBe('東京スカイツリ')
+    expect(normalizeName('とうきょう')).toBe('東京')
   })
 
   it('カタカナノ を ひらがなの に集約する', () => {

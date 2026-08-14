@@ -15,6 +15,7 @@ import { extractStopCandidates } from './rail-coords/parseOverpass.ts'
 import { queryOverpass } from './rail-coords/overpassClient.ts'
 import { buildStationByNameQuery, buildStopNodesQuery, buildStopWaysQuery } from './rail-coords/queryRelation.ts'
 import type {
+  Bbox,
   ExistingStation,
   LineRelationConfig,
   MatchResult,
@@ -41,6 +42,9 @@ const METRO_LINE_IDS = [
  * メトロ9路線の id は既存コメントから集約。パイロット3路線（yamanote/odakyu/mita）は
  * 適用時に OSM で route relation を調査して追加する。
  */
+/** 東京都内（23区＋多摩東部）の bbox。県境を越える私鉄路線の駅を都内に絞るための抽出範囲。 */
+const TOKYO_BBOX: Bbox = { south: 35.5, west: 139.4, north: 35.9, east: 139.95 }
+
 const LINE_RELATIONS: Record<string, LineRelationConfig> = {
   // メトロ9路線（検証用。現状維持で --write しない）
   chiyoda: { lineId: 'chiyoda', relationIds: [443284, 8026050], filePath: 'chiyodaLine.ts', note: '代々木上原は relation 欠落、railway=station で補完の実績' },
@@ -54,8 +58,23 @@ const LINE_RELATIONS: Record<string, LineRelationConfig> = {
   yurakucho: { lineId: 'yurakucho', relationIds: [443269], filePath: 'yurakuchoLine.ts' },
   // パイロット3路線（推定値の正確化対象。relation id は Overpass で route 検索して設定）
   yamanote: { lineId: 'yamanote', relationIds: [1972920], filePath: 'yamanoteLine.ts', note: 'JR山手線。必要に応じて方向別（1972960 等）を追加' },
-  odakyu: { lineId: 'odakyu', relationIds: [1942963], filePath: 'odakyuLine.ts', note: '小田急小田原線。都内駅のみ既存リスト+bboxで抽出', bbox: { south: 35.5, west: 139.4, north: 35.9, east: 139.95 } },
+  odakyu: { lineId: 'odakyu', relationIds: [1942963], filePath: 'odakyuLine.ts', note: '小田急小田原線。都内駅のみ既存リスト+bboxで抽出', bbox: TOKYO_BBOX },
   mita: { lineId: 'mita', relationIds: [443286], filePath: 'mitaLine.ts', note: '都営三田線 目黒→西高島平' },
+  // Phase 2（推定値路線の OSM 正確化）。relation id は scripts/find-relations.ts で特定。
+  asakusa: { lineId: 'asakusa', relationIds: [8019849, 3302734], filePath: 'asakusaLine.ts', note: '都営浅草線 押上↔西馬込（往復）' },
+  oedo: { lineId: 'oedo', relationIds: [3355612, 8019883], filePath: 'oedoLine.ts', note: '都営大江戸線 6の字運転（往復）' },
+  shinjuku: { lineId: 'shinjuku', relationIds: [8019858, 443259], filePath: 'shinjukuLine.ts', note: '都営新宿線 新宿↔本八幡（往復）' },
+  'nippori-toneri-liner': { lineId: 'nippori-toneri-liner', relationIds: [3423146, 9253570], filePath: 'nipporiToneriLinerLine.ts', note: '日暮里・舎人ライナー（往復）' },
+  'toden-arakawa': { lineId: 'toden-arakawa', relationIds: [9254425, 1952418], filePath: 'todenArakawaLine.ts', note: '都電荒川線 三ノ輪橋↔早稲田（往復）' },
+  keikyu: { lineId: 'keikyu', relationIds: [9498719, 1994313], filePath: 'keikyuLine.ts', note: '京浜急行電鉄本線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  keisei: { lineId: 'keisei', relationIds: [19928462, 19928461], filePath: 'keiseiLine.ts', note: '京成本線 普通（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  'seibu-shinjuku': { lineId: 'seibu-shinjuku', relationIds: [9506864, 9507191], filePath: 'seibuShinjukuLine.ts', note: '西武新宿線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  toyoko: { lineId: 'toyoko', relationIds: [1947536, 9288982], filePath: 'toyokoLine.ts', note: '東急東横線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  'tobu-skytree': { lineId: 'tobu-skytree', relationIds: [5392090, 9504526], filePath: 'tobuSkytreeLine.ts', note: '東武スカイツリーライン（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  'tobu-tojo': { lineId: 'tobu-tojo', relationIds: [10032017, 10032085], filePath: 'tobuTojoLine.ts', note: '東武東上線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  'tobu-nikko': { lineId: 'tobu-nikko', relationIds: [1872553, 11801773], filePath: 'tobuNikkoLine.ts', note: '東武日光線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  'tsukuba-express': { lineId: 'tsukuba-express', relationIds: [2549404, 4589046], filePath: 'tsukubaExpress.ts', note: 'つくばエクスプレス（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
+  'chuo-sobu-local': { lineId: 'chuo-sobu-local', relationIds: [3351488, 10312042, 10312043], filePath: 'chuoSobuLocalLine.ts', note: '中央・総武緩行線（各駅停車）。山手線環内 16駅' },
 }
 
 /** 座標値を実質比較するため7桁で丸める。OSM 再取得の微小差を無視する。 */

@@ -5,10 +5,10 @@ import type { OverpassResponse } from './parseOverpass.ts'
 
 const response: OverpassResponse = {
   elements: [
-    { type: 'node', lat: 35.659, lon: 139.702, tags: { name: '渋谷', 'railway:ref': 'G01' } },
-    { type: 'way', center: { lat: 35.7, lon: 139.7 }, tags: { name: '駅A' } },
-    { type: 'node', lat: 35.6, lon: 139.6 }, // name 無し → 除外
-    { type: 'node', lat: 35.65, lon: 139.75, tags: { 'name:ja': '日本語駅' } }, // name:ja フォールバック
+    { id: 1, type: 'node', lat: 35.659, lon: 139.702, tags: { name: '渋谷', 'railway:ref': 'G01' } },
+    { id: 2, type: 'way', center: { lat: 35.7, lon: 139.7 }, tags: { name: '駅A' } },
+    { id: 3, type: 'node', lat: 35.6, lon: 139.6 }, // name 無し → 除外
+    { id: 4, type: 'node', lat: 35.65, lon: 139.75, tags: { 'name:ja': '日本語駅' } }, // name:ja フォールバック
   ],
 }
 

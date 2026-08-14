@@ -54,8 +54,24 @@ export function buildStationByNameQuery(name: string): string {
   const escaped = escapeOverpassString(name)
   return [
     '[out:json][timeout:60];',
-    `node["name"="${escaped}"]["railway"="station"];`,
+    // 前方一致で「○○駅」/「○○」等の表記ゆれを広く拾い、厳密なマッチングは normalizeName に委ねる。
+    `node["name"~"^${escaped}"]["railway"="station"];`,
     'out body;',
+    '',
+  ].join('\n')
+}
+
+/**
+ * 複数の路線名で route relation を検索する Overpass QL（純粋関数）。
+ * 路線名は正規表現の OR で結び、[~"name"~...] で全タグに対して部分一致検索する。
+ * Phase 2 のように路線の route relation id を事前に特定する探索用。
+ */
+export function buildLineSearchQuery(lineNames: readonly string[]): string {
+  const pattern = lineNames.map(escapeOverpassString).join('|')
+  return [
+    '[out:json][timeout:180];',
+    `relation["type"="route"]["route"~"subway|train|tram|light_rail|monorail"][~"name"~"(${pattern})"];`,
+    'out tags;',
     '',
   ].join('\n')
 }
