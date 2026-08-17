@@ -179,7 +179,7 @@ export const transfers: readonly Transfer[] = [
   {
     id: 'detour-jy28-mita',
     fromStationId: 'jy28',
-    toStationId: 'm04',
+    toStationId: 'i04',
     walkMinutes: 5,
     note: '三田線・浅草線（三田）へ',
   },
