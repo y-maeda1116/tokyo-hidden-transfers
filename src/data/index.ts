@@ -17,7 +17,6 @@ import { odakyuLine } from './lines/odakyuLine.ts'
 import { oedoLine } from './lines/oedoLine.ts'
 import { seibuShinjukuLine } from './lines/seibuShinjukuLine.ts'
 import { shinjukuLine } from './lines/shinjukuLine.ts'
-import { tobuNikkoLine } from './lines/tobuNikkoLine.ts'
 import { tobuSkytreeLine } from './lines/tobuSkytreeLine.ts'
 import { tobuTojoLine } from './lines/tobuTojoLine.ts'
 import { todenArakawaLine } from './lines/todenArakawaLine.ts'
@@ -55,7 +54,6 @@ const validatedLines: Line[] = LineSchema.array().parse([
   toyokoLine,
   tobuSkytreeLine,
   tobuTojoLine,
-  tobuNikkoLine,
 ])
 const validatedTransfers: Transfer[] = TransferSchema.array().parse(transfers)
 

@@ -72,7 +72,6 @@ const LINE_RELATIONS: Record<string, LineRelationConfig> = {
   toyoko: { lineId: 'toyoko', relationIds: [1947536, 9288982], filePath: 'toyokoLine.ts', note: '東急東横線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
   'tobu-skytree': { lineId: 'tobu-skytree', relationIds: [5392090, 9504526], filePath: 'tobuSkytreeLine.ts', note: '東武スカイツリーライン（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
   'tobu-tojo': { lineId: 'tobu-tojo', relationIds: [10032017, 10032085], filePath: 'tobuTojoLine.ts', note: '東武東上線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
-  'tobu-nikko': { lineId: 'tobu-nikko', relationIds: [1872553, 11801773], filePath: 'tobuNikkoLine.ts', note: '東武日光線（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
   'tsukuba-express': { lineId: 'tsukuba-express', relationIds: [2549404, 4589046], filePath: 'tsukubaExpress.ts', note: 'つくばエクスプレス（往復）。都内駅のみ bbox', bbox: TOKYO_BBOX },
   'chuo-sobu-local': { lineId: 'chuo-sobu-local', relationIds: [3351488, 10312042, 10312043], filePath: 'chuoSobuLocalLine.ts', note: '中央・総武緩行線（各駅停車）。山手線環内 16駅' },
 }
