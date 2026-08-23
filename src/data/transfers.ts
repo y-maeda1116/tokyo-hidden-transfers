@@ -28,6 +28,63 @@ export const transfers: readonly Transfer[] = [
     walkMinutes: 10,
     note: '銀座線と都営浅草線の連絡',
   },
+  // === 2026-08 追加路線由来の徒歩連絡 ===
+  {
+    id: 'monorail-hamamatsucho-yamanote',
+    fromStationId: 'tokyo-monorail-01',
+    toStationId: 'jy27',
+    walkMinutes: 5,
+    note: '東京モノレール（モノレール浜松町）と山手線・京浜東北線（浜松町）',
+  },
+  {
+    id: 'haneda-t2-keikyu-monorail',
+    fromStationId: 'keikyu-airport-07',
+    toStationId: 'tokyo-monorail-11',
+    walkMinutes: 2,
+    note: '羽田空港第2ターミナル内の連絡（京急とモノレール）',
+  },
+  {
+    id: 'haneda-t1-keikyu-monorail',
+    fromStationId: 'keikyu-airport-07',
+    toStationId: 'tokyo-monorail-10',
+    walkMinutes: 2,
+    note: '羽田空港第1ターミナル内の連絡（京急とモノレール）',
+  },
+  {
+    id: 'tachikawa-kita-jr',
+    fromStationId: 'tama-monorail-08',
+    toStationId: 'chuo-rapid-19',
+    walkMinutes: 3,
+    note: '多摩モノレール（立川北）とJR（立川）。ペデストリアンデッキで連絡',
+  },
+  {
+    id: 'tachikawa-minami-jr',
+    fromStationId: 'tama-monorail-09',
+    toStationId: 'chuo-rapid-19',
+    walkMinutes: 2,
+    note: '多摩モノレール（立川南）とJR（立川）。南口側で連絡',
+  },
+  {
+    id: 'keio-hachioji-jr',
+    fromStationId: 'keio-32',
+    toStationId: 'chuo-rapid-22',
+    walkMinutes: 5,
+    note: '京王八王子とJR八王子。北口経由の連絡',
+  },
+  {
+    id: 'akitsu-shin-akitsu',
+    fromStationId: 'seibu-ikebukuro-01',
+    toStationId: 'musashino-01',
+    walkMinutes: 2,
+    note: '西武池袋線（秋津）と武蔵野線（新秋津）。隣接',
+  },
+  {
+    id: 'masame-nambu-seibu',
+    fromStationId: 'nambu-02',
+    toStationId: 'seibu-tamagawa-06',
+    walkMinutes: 4,
+    note: 'JR南武線（是政）と西武多摩川線（是政）。同名だが約200m 離れた別駅',
+  },
   // === 山手線運休時の振替（迂回）ルート（徒歩で別位置の駅へ） ===
   {
     id: 'detour-jy30-sengakuji',
