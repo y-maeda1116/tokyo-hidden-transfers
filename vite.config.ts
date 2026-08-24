@@ -29,7 +29,9 @@ export default defineConfig({
   test: {
     environment: 'node',
     passWithNoTests: true,
-    include: ['src/**/*.test.ts'],
+    // scripts/ 配下のビルドスクリプト純粋関数（rail-coords 等）もテスト対象にする。
+    // coverage は論理層（src）のみ計測。
+    include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       include: [

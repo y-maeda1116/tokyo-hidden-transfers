@@ -101,6 +101,17 @@ npm run test:coverage # カバレッジ付きテスト実行（論理層 80% 以
 | `lon` / `lat` | WGS84 の経度 / 緯度 |
 | `mode` | 交通手段（`rail`/`bus`/`tram`、省略時は `rail`） |
 
+### 鉄道駅座標の基準
+
+全路線の駅座標は [OpenStreetMap](https://www.openstreetmap.org/copyright) の route relation の role=stop（停車位置）を基準とします（© OpenStreetMap contributors, ODbL）。route relation に欠落する駅は `railway=station` ノードで補完します。各路線ファイル（`src/data/lines/*.ts`）の冒頭に relation id を明記しています。※都電荒川線は路線データ自体の再構築が必要なため本基準の適用は別課題。
+
+座標の再取得・正確化は `npm run build:rail-coords`（[Overpass API](https://overpass-api.de/) 経由）。既定は差分ドライラン、`--write` で路線ファイルに反映します。
+
+```bash
+npm run build:rail-coords -- --line yamanote --write   # 指定路線を正確化
+npm run build:rail-coords -- --validate-metro           # メトロ9路線をドライラン検証
+```
+
 ### 非公式乗換の追加
 
 `src/data/transfers.ts` に乗換オブジェクトを追加します。`fromStationId` / `toStationId` は既存の駅 ID を参照し、`walkMinutes` は 1 以上の整数です。
@@ -154,3 +165,5 @@ src/
 地図タイル: © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors
 
 バスデータ（都営バス全系統）: [公共交通オープンデータセンター](https://www.odpt.org/) / [東京都オープンデータカタログ](https://catalog.data.metro.tokyo.lg.jp/dataset/t000018d0000000052) の都営バス GTFS-JP（アプリ画面の凡例にもクレジットを記載）
+
+鉄道駅座標: © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, ODbL（路線ごとの route relation id は `src/data/lines/*.ts` の冒頭に明記）

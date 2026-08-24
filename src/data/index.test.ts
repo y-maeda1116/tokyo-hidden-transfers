@@ -8,8 +8,8 @@ import {
 } from '../geojson/builders.ts'
 
 describe('lines（路線データ）', () => {
-  it('23路線が定義されている', () => {
-    expect(lines.length).toBe(23)
+  it('62路線が定義されている', () => {
+    expect(lines.length).toBe(62)
   })
 
   it('全路線が2駅以上を持つ', () => {
@@ -29,6 +29,11 @@ describe('lines（路線データ）', () => {
     for (const line of lines) {
       expect(valid).toContain(line.category)
     }
+  })
+
+  it('駅IDは全局一意（路線追加によるID衝突がない）', () => {
+    const total = lines.reduce((sum, line) => sum + line.stations.length, 0)
+    expect(stationsById.size).toBe(total)
   })
 })
 
