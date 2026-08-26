@@ -34,7 +34,7 @@
     "@vitejs/plugin-react": "^6.0.5",
     "@vitest/coverage-v8": "^4.1.0",
     "csv-parse": "^7.0.2",
-    "eslint": "^10.8.1",
+    "eslint": "^10.9.0",
     "eslint-plugin-security": "^4.0.1",
     "globals": "^17.11.0",
     "tsx": "^4.23.12",
