@@ -70,6 +70,12 @@ describe('readStoredMode', () => {
     expect(readStoredMode(storage)).toBe('compact')
   })
 
+  it('保存値fullも返す', () => {
+    const storage = createMemoryStorage()
+    storage.setItem('display-mode', 'full')
+    expect(readStoredMode(storage)).toBe('full')
+  })
+
   it('不正値はnull（自動判定へフォールバック）', () => {
     const storage = createMemoryStorage()
     storage.setItem('display-mode', 'hoge')
