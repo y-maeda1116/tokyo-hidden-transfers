@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Line } from '../domain/types.ts'
 
 interface Props {
@@ -10,12 +10,7 @@ interface Props {
   collapsible?: boolean
 }
 
-interface ListProps {
-  lines: readonly Line[]
-  hiddenLineIds: ReadonlySet<string>
-  onToggleLine: (lineId: string) => void
-  busVisible: boolean
-}
+type ListProps = Omit<Props, 'collapsible'>
 
 /** 路線一覧＋クレジット（full/compact 共用の中身）。 */
 function LegendBody({ lines, hiddenLineIds, onToggleLine, busVisible }: ListProps) {
@@ -75,6 +70,20 @@ export function Legend({
 }: Props) {
   const [open, setOpen] = useState(false)
 
+  // シート表示中は Esc キーでも閉じられるようにする（role="dialog" の期待動作）。
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [open])
+
   if (!collapsible) {
     return (
       <aside className="legend" aria-label="凡例">
@@ -94,6 +103,7 @@ export function Legend({
       <button
         type="button"
         className="legend-open-button"
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="legend-sheet"
         onClick={() => setOpen((prev) => !prev)}
