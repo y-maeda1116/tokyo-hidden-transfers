@@ -395,3 +395,123 @@ body {
   color: #ffffff;
   border-color: #1a1a1a;
 }
+
+/* ヘッダー行（モード切替ボタン。full/compact共通の新規要素） */
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.header-text {
+  min-width: 0;
+}
+.display-mode-toggle {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.display-mode-toggle:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ---- スマホモード（compact）: [data-display='compact'] のみに適用 ---- */
+
+/* ヘッダー/タブ: 縮小とタップ領域の確保 */
+[data-display='compact'] .header {
+  padding: 8px 12px;
+}
+[data-display='compact'] .header-title {
+  font-size: 16px;
+}
+[data-display='compact'] .header-subtitle {
+  font-size: 11px;
+}
+[data-display='compact'] .tab {
+  padding: 12px 16px;
+  font-size: 15px;
+}
+
+/* 凡例（折りたたみ）: 開くまで地図を隠さない */
+.legend-collapsible {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+}
+.legend-open-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.legend-open-button:hover {
+  background: #ffffff;
+}
+.legend-sheet {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  width: min(92vw, 360px);
+  max-height: calc(100dvh - 200px);
+  overflow-y: auto;
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+}
+.legend-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.legend-sheet-header .legend-title {
+  margin: 0;
+}
+.legend-sheet-close {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #555555;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* 表示パネル: 開いた内容を画面幅いっぱいに */
+[data-display='compact'] .display-panel-content {
+  width: calc(100vw - 24px);
+  max-width: none;
+}
+[data-display='compact'] .display-panel-chip {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* 運休トグル: タップしやすく */
+[data-display='compact'] .suspension-toggle {
+  padding: 10px 14px;
+}
+
+/* 凡例の路線行: タッチターゲット44px目安に拡大 */
+[data-display='compact'] .legend-line {
+  margin: 4px 0;
+}
+[data-display='compact'] .legend-toggle {
+  min-height: 44px;
+  padding: 8px 4px;
+}
