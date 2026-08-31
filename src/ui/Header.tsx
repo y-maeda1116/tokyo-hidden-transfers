@@ -11,6 +11,9 @@ interface Props {
  */
 export function Header({ mode, onToggleMode }: Props) {
   const compact = mode === 'compact'
+  const toggleLabel = compact
+    ? 'デスクトップ表示に切り替えます'
+    : 'スマホ表示（コンパクト）に切り替えます'
   return (
     <header className="header">
       <div className="header-row">
@@ -25,11 +28,8 @@ export function Header({ mode, onToggleMode }: Props) {
           className="display-mode-toggle"
           onClick={onToggleMode}
           aria-pressed={compact}
-          title={
-            compact
-              ? 'デスクトップ表示に切り替えます'
-              : 'スマホ表示（コンパクト）に切り替えます'
-          }
+          aria-label={toggleLabel}
+          title={toggleLabel}
         >
           {compact ? '🖥️' : '📱'}
         </button>
