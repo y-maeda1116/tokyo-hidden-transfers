@@ -90,6 +90,7 @@ export function App() {
               hiddenLineIds={display.state.hiddenLineIds}
               onToggleLine={display.toggleLine}
               busVisible={isLayerVisible('bus', display.state)}
+              collapsible={displayMode.mode === 'compact'}
             />
           </>
         ) : (
