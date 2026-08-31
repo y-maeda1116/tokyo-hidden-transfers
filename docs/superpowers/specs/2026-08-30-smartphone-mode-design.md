@@ -32,6 +32,8 @@ iPhoneから地図を確認しにくい。主原因は凡例（路線選択UI）
 3. ユーザーが切替ボタンを押したら localStorage に書き込み上書き
 
 - 戻り値: `{ mode: 'compact' | 'full', isAuto: boolean, toggleMode(): void }`
+- 判定ロジックは純粋関数 `resolveDisplayMode(stored, mediaMatches)` として
+  分離し、フックはlocalStorage/matchMediaのI/Oのみ担う（ユニットテスト容易）
 - matchMedia の変更リスナーを登録し、回転・リサイズで自動判定が追随
   （手動上書き中は追随しない）
 - localStorage 読み書きは try/catch で包む。不正値・例外時は自動判定へ
@@ -54,9 +56,9 @@ iPhoneから地図を確認しにくい。主原因は凡例（路線選択UI）
 - `Legend` に `collapsible` prop を追加。`App` は `mode === 'compact'` の
   ときのみ渡す。propなし（full時）は現状のDOM・見た目完全不変
 - compact時: 右上に「🚈 路線」ボタン（運休トグルと同デザインの小型
-  オーバーレイ）。タップで地図上に全画面に近いシート（白背景・スクロール可）
-  を開き、62路線一覧＋非公式乗換/都バス/データ元クレジットを表示。
-  ヘッダーの「閉じる」で戻る
+  オーバーレイ）。タップで地図上部を覆うシート（`.main` 内に absolute
+  配置・白背景・`overflow-y: auto` でスクロール可）を開き、62路線一覧＋
+  非公式乗換/都バス/データ元クレジットを表示。シートヘッダーの「閉じる」で戻る
 - 開閉は `aria-expanded` / `aria-controls` 付き
 - 路線行のタッチターゲットはcompact時に拡大（高さ44px目安）
 
