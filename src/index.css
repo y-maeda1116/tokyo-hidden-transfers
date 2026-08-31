@@ -420,7 +420,8 @@ body {
   background: rgba(255, 255, 255, 0.35);
 }
 
-/* ---- スマホモード（compact）: [data-display='compact'] のみに適用 ---- */
+/* ---- スマホモード（compact）: [data-display='compact'] のみに適用 ----
+   （凡例折りたたみ系のみ例外: compact時しかDOMに存在しないためプレフィクスなし） */
 
 /* ヘッダー/タブ: 縮小とタップ領域の確保 */
 [data-display='compact'] .header {
@@ -495,7 +496,6 @@ body {
 /* 表示パネル: 開いた内容を画面幅いっぱいに */
 [data-display='compact'] .display-panel-content {
   width: calc(100vw - 24px);
-  max-width: none;
 }
 [data-display='compact'] .display-panel-chip {
   padding: 8px 14px;
