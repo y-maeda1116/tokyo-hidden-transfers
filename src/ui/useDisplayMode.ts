@@ -44,6 +44,18 @@ export function writeStoredMode(
 }
 
 /**
+ * localStorage プロパティ自体の取得が例外を投げる環境
+ * （Cookie全ブロック・プライベートモード等）では null を返す。
+ */
+export function safeLocalStorage(): Storage | null {
+  try {
+    return window.localStorage
+  } catch {
+    return null
+  }
+}
+
+/**
  * 表示モード（スマホ/デスクトップ）を提供するフック。
  * - localStorage に手動上書きがあればそれを尊重
  * - なければ matchMedia（max-width: 640px）で自動判定し、変更に追随
@@ -54,7 +66,7 @@ export function useDisplayMode(): {
   toggleMode: () => void
 } {
   const [stored, setStored] = useState<DisplayMode | null>(() =>
-    readStoredMode(window.localStorage),
+    readStoredMode(safeLocalStorage()),
   )
   const [mediaMatches, setMediaMatches] = useState(
     () => window.matchMedia(COMPACT_MEDIA_QUERY).matches,
@@ -75,7 +87,7 @@ export function useDisplayMode(): {
   // 手動切替: 現在モードの逆を書き込み、以後は上書きモードとして扱う
   const toggleMode = useCallback(() => {
     const next: DisplayMode = mode === 'compact' ? 'full' : 'compact'
-    writeStoredMode(window.localStorage, next)
+    writeStoredMode(safeLocalStorage(), next)
     setStored(next)
   }, [mode])
 

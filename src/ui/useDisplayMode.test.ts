@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import {
   readStoredMode,
   resolveDisplayMode,
+  safeLocalStorage,
   writeStoredMode,
 } from './useDisplayMode.ts'
 
@@ -110,5 +111,33 @@ describe('writeStoredMode', () => {
 
   it('storageがnullでもクラッシュしない', () => {
     expect(() => writeStoredMode(null, 'compact')).not.toThrow()
+  })
+})
+
+describe('safeLocalStorage', () => {
+  const windowProp = 'window' as const
+  const originalWindow = (globalThis as Record<string, unknown>)[windowProp]
+
+  afterEach(() => {
+    if (originalWindow === undefined) {
+      delete (globalThis as Record<string, unknown>)[windowProp]
+    } else {
+      ;(globalThis as Record<string, unknown>)[windowProp] = originalWindow
+    }
+  })
+
+  it('localStorageへのアクセスが例外を投げる環境ではnullを返す', () => {
+    ;(globalThis as Record<string, unknown>)[windowProp] = {
+      get localStorage(): Storage {
+        throw new Error('SecurityError')
+      },
+    }
+    expect(safeLocalStorage()).toBeNull()
+  })
+
+  it('アクセス可能ならlocalStorageを返す', () => {
+    const storage = createMemoryStorage()
+    ;(globalThis as Record<string, unknown>)[windowProp] = { localStorage: storage }
+    expect(safeLocalStorage()).toBe(storage)
   })
 })
