@@ -19,7 +19,7 @@
     "build:rail-coords": "tsx scripts/build-rail-coords.ts"
   },
   "dependencies": {
-    "maplibre-gl": "^6.5.0",
+    "maplibre-gl": "^6.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.8",
     "zod": "^4.4.0"
