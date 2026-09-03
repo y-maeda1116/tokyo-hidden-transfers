@@ -7,6 +7,7 @@ import { Legend } from './ui/Legend.tsx'
 import { DisplayPanel } from './ui/DisplayPanel.tsx'
 import { SuspensionToggle } from './ui/SuspensionToggle.tsx'
 import { TransferListView } from './ui/TransferListView.tsx'
+import { useDisplayMode } from './ui/useDisplayMode.ts'
 import { useDisplayState } from './map/useDisplayState.ts'
 import { isLayerVisible } from './domain/displayVisibility.ts'
 
@@ -24,6 +25,8 @@ export function App() {
   const [suspensionMode, setSuspensionMode] = useState(false)
   // リスト→地図へのジャンプ対象。消費後 null に戻し再ジャンプを可能にする。
   const [focusTarget, setFocusTarget] = useState<FocusTarget | null>(null)
+  // 表示モード（スマホ/デスクトップ）。自動判定＋手動上書き、localStorage永続化。
+  const displayMode = useDisplayMode()
 
   // lines/allTransfers/stationsById は起動時に固定（イミュータブル）なので初回のみ生成
   const transferEntries = useMemo(
@@ -43,8 +46,8 @@ export function App() {
   }, [])
 
   return (
-    <div className="app">
-      <Header />
+    <div className="app" data-display={displayMode.mode}>
+      <Header mode={displayMode.mode} onToggleMode={displayMode.toggleMode} />
       <nav className="tabs">
         <button
           type="button"
@@ -87,6 +90,7 @@ export function App() {
               hiddenLineIds={display.state.hiddenLineIds}
               onToggleLine={display.toggleLine}
               busVisible={isLayerVisible('bus', display.state)}
+              collapsible={displayMode.mode === 'compact'}
             />
           </>
         ) : (
